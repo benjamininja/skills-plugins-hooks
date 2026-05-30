@@ -1,0 +1,10 @@
+© Anthropic PBC. All rights reserved. Use is subject to Anthropic's Commercial Terms of Service (https://www.anthropic.com/legal/commercial-terms).
+
+---
+Provenance
+This skill is vendored from the anthropics/claude-code repository:
+  https://github.com/anthropics/claude-code  (tag v2.1.158, commit 295dee8)
+  source path: plugins/frontend-design/skills/frontend-design/
+
+The upstream skill folder contains only SKILL.md; the governing license terms
+above are reproduced from the repository-root LICENSE.md at the same ref.
