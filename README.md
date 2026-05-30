@@ -9,17 +9,20 @@ Some skills are authored here; others are vendored from upstream projects and cr
 ## Repository Structure
 
 ```
-skills/
-├── caveman/                                    # token-compression communication
-├── fantasy-football-python/                    # dynasty fantasy football ETL
-│   └── references/data_model.md
-├── frontend-design/                            # production-grade frontend UI
-├── azure-resource-manager-playwright-dotnet/   # Azure Playwright Testing ARM SDK (.NET)
-├── everything-claude-code/                     # Claude Code conventions reference
-├── skill-seekers/                              # build skills from any source (MCP)
-├── grill-me/                                   # stress-test a plan via interview
-├── grill-with-docs/                            # grill a plan against your docs
-└── handoff/                                    # compact a session into a handoff doc
+.
+├── vendor-skills.json                          # manifest: pins each vendored skill's upstream commit
+├── tools/
+│   └── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
+└── skills/
+    ├── caveman/                                # token-compression communication
+    ├── fantasy-football-python/                # dynasty fantasy football ETL
+    │   └── references/data_model.md
+    ├── frontend-design/                        # production-grade frontend UI (+ LICENSE.txt)
+    ├── azure-resource-manager-playwright-dotnet/   # Azure Playwright Testing ARM SDK (.NET)
+    ├── everything-claude-code/                 # Claude Code conventions reference
+    ├── grill-me/                               # stress-test a plan via interview
+    ├── grill-with-docs/                        # grill a plan against your docs
+    └── handoff/                                # compact a session into a handoff doc
 ```
 
 ---
@@ -52,7 +55,6 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 | **frontend-design** | Create distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. | [anthropics/claude-code](https://github.com/anthropics/claude-code) |
 | **azure-resource-manager-playwright-dotnet** | Azure Resource Manager SDK for Microsoft Playwright Testing in .NET — management-plane ops (workspaces, quotas, name availability). | [microsoft/skills](https://github.com/microsoft/skills) |
 | **everything-claude-code** | Development conventions and patterns reference generated from the everything-claude-code project. | [affaan-m/ECC](https://github.com/affaan-m/ECC) |
-| **skill-seekers** | Build AI skills from documentation, repos, PDFs, or videos via the Skill Seekers MCP server. *(Requires the Skill Seekers MCP server.)* | [yusufkaraaslan/Skill_Seekers](https://github.com/yusufkaraaslan/Skill_Seekers) |
 | **grill-me** | Interview the user relentlessly about a plan until reaching shared understanding, resolving each branch of the decision tree. | [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **grill-with-docs** | Grilling session that challenges a plan against the existing domain model and updates docs (CONTEXT.md, ADRs) inline. | [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **handoff** | Compact the current conversation into a handoff document for another agent to pick up. | [mattpocock/skills](https://github.com/mattpocock/skills) |
@@ -61,14 +63,13 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 
 ## Sources & Credits
 
-Vendored skills are static copies of a single skill folder from each upstream repo. To refresh one, re-copy the relevant folder from the source at a newer commit and update the pin below.
+Vendored skills are static copies of a single skill folder from each upstream repo. The authoritative pins live in [`vendor-skills.json`](vendor-skills.json); the table below mirrors it for readability. To check for and apply updates, run [`tools/update-vendor-skills.ipynb`](tools/update-vendor-skills.ipynb) (see **Maintaining vendored skills** below).
 
 | Skill | Upstream repo | Pinned ref | Source path within repo |
 |-------|---------------|-----------|-------------------------|
 | frontend-design | `anthropics/claude-code` | `295dee8` (v2.1.158) | `plugins/frontend-design/skills/frontend-design/` |
 | azure-resource-manager-playwright-dotnet | `microsoft/skills` | `684313b` | `.github/plugins/azure-sdk-dotnet/skills/azure-resource-manager-playwright-dotnet/` |
 | everything-claude-code | `affaan-m/ECC` | `64cd1ba` | `.claude/skills/everything-claude-code/` |
-| skill-seekers | `yusufkaraaslan/Skill_Seekers` | `ff7d3af` (development) | `skills/skill-seekers/` |
 | grill-me | `mattpocock/skills` | `e3b90b5` | `skills/productivity/grill-me/` |
 | grill-with-docs | `mattpocock/skills` | `e3b90b5` | `skills/engineering/grill-with-docs/` |
 | handoff | `mattpocock/skills` | `e3b90b5` | `skills/productivity/handoff/` |
@@ -76,6 +77,20 @@ Vendored skills are static copies of a single skill folder from each upstream re
 ### Related (not a skill)
 
 - [mbtiusa/awesome-mbti](https://github.com/mbtiusa/awesome-mbti) — a curated list of MBTI resources, tools, and research.
+
+---
+
+## Maintaining vendored skills
+
+[`tools/update-vendor-skills.ipynb`](tools/update-vendor-skills.ipynb) reads [`vendor-skills.json`](vendor-skills.json) and, for each vendored skill, queries the GitHub API for the latest commit touching its source path:
+
+1. **Check** — running all cells prints a status table (pinned vs latest commit, with a `compare` link for anything out of date).
+2. **Update** — `update_skill("<name>", apply=True)` re-downloads that skill's folder from the latest upstream commit, replaces the local copy, and re-pins `vendor-skills.json`. It's a dry run unless `apply=True`.
+3. Review the resulting `git diff` before committing — upstream skills can change structure or licensing.
+
+> Set a `GITHUB_TOKEN` environment variable to lift the GitHub API rate limit from 60 to 5,000 requests/hour.
+
+To add a new vendored skill, copy its folder into `skills/` and add a matching entry to `vendor-skills.json`.
 
 ---
 

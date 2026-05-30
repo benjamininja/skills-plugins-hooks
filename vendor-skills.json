@@ -1,0 +1,59 @@
+{
+  "_comment": "Single source of truth for vendored skills. Each entry pins the upstream commit a skill was copied from. The tools/update-vendor-skills.ipynb notebook reads this file to check for and apply upstream updates.",
+  "skills": [
+    {
+      "name": "frontend-design",
+      "repo": "anthropics/claude-code",
+      "branch": "main",
+      "pinned_ref": "v2.1.158",
+      "pinned_commit": "295dee881d0e1c1d0cd22fe171e4c1d07118fb04",
+      "source_path": "plugins/frontend-design/skills/frontend-design",
+      "local_path": "skills/frontend-design"
+    },
+    {
+      "name": "azure-resource-manager-playwright-dotnet",
+      "repo": "microsoft/skills",
+      "branch": "main",
+      "pinned_ref": "684313b",
+      "pinned_commit": "684313b5263c04177dd0e232571feae1c9079573",
+      "source_path": ".github/plugins/azure-sdk-dotnet/skills/azure-resource-manager-playwright-dotnet",
+      "local_path": "skills/azure-resource-manager-playwright-dotnet"
+    },
+    {
+      "name": "everything-claude-code",
+      "repo": "affaan-m/ECC",
+      "branch": "main",
+      "pinned_ref": "64cd1ba",
+      "pinned_commit": "64cd1ba248e77e377e76f70fc4e6434bfdddd511",
+      "source_path": ".claude/skills/everything-claude-code",
+      "local_path": "skills/everything-claude-code"
+    },
+    {
+      "name": "grill-me",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "e3b90b5",
+      "pinned_commit": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
+      "source_path": "skills/productivity/grill-me",
+      "local_path": "skills/grill-me"
+    },
+    {
+      "name": "grill-with-docs",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "e3b90b5",
+      "pinned_commit": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
+      "source_path": "skills/engineering/grill-with-docs",
+      "local_path": "skills/grill-with-docs"
+    },
+    {
+      "name": "handoff",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "e3b90b5",
+      "pinned_commit": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
+      "source_path": "skills/productivity/handoff",
+      "local_path": "skills/handoff"
+    }
+  ]
+}
