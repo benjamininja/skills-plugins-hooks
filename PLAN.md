@@ -55,11 +55,19 @@ collapse to one-liners once their durable signal lands in an ADR or
    unrelated commit. Git-recency staleness detection and an interactive
    delete-offer were both designed against and explicitly deferred (see the
    hook's own README) rather than built speculatively.
-4. **Regression-testing standard** — Dynasty-facing (pytest + pre-commit +
-   `check_sources.py`), fully designed and grilled already (notebook
-   strategy, pre-commit scope, `offline_smoke.py` rename, no venv wrapper,
-   CI deferred with ADR-0004 reasoning) — just needs building. Deliberately
-   last in this re-sequencing, not because the design work is stale.
+4. ~~Regression-testing standard~~ — built, both PRs open (not yet merged):
+   [project-memory-template#4](https://github.com/benjamininja/project-memory-template/pull/4)
+   (general `docs/regression-testing-standard.md`) and
+   [Python-PowerBI-DynastyFantasyFootball#19](https://github.com/benjamininja/Python-PowerBI-DynastyFantasyFootball/pull/19)
+   (the retrofit: `pyproject.toml`, `tests/test_etl_helpers.py`,
+   `offline_smoke.py` → `test_offline_smoke.py`, `.pre-commit-config.yaml`,
+   ADR-0008). Also fixed a real pre-existing bug the pytest conversion
+   surfaced: `capmath.py` was never in `offline_smoke.py`'s monkeypatch
+   loop, so the `cap`/`roster` commands' "offline" test silently hit real
+   GitHub. All verification steps from the plan re-run and passed locally
+   (19 unit tests, 5 bot smoke tests, `pre-commit run --all-files`, and a
+   deliberately-broken-then-reverted function to prove the tests are real
+   assertions).
 
 ## [ ] Deferred
 
