@@ -72,6 +72,161 @@
       "pinned_commit": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
       "source_path": "skills/productivity/handoff",
       "local_path": "skills/handoff"
+    },
+    {
+      "name": "ask-matt",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/ask-matt",
+      "local_path": "skills/ask-matt"
+    },
+    {
+      "name": "codebase-design",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/codebase-design",
+      "local_path": "skills/codebase-design"
+    },
+    {
+      "name": "diagnosing-bugs",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/diagnosing-bugs",
+      "local_path": "skills/diagnosing-bugs"
+    },
+    {
+      "name": "implement",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/implement",
+      "local_path": "skills/implement"
+    },
+    {
+      "name": "improve-codebase-architecture",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/improve-codebase-architecture",
+      "local_path": "skills/improve-codebase-architecture"
+    },
+    {
+      "name": "prototype",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/prototype",
+      "local_path": "skills/prototype"
+    },
+    {
+      "name": "resolving-merge-conflicts",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/resolving-merge-conflicts",
+      "local_path": "skills/resolving-merge-conflicts"
+    },
+    {
+      "name": "setup-matt-pocock-skills",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/setup-matt-pocock-skills",
+      "local_path": "skills/setup-matt-pocock-skills"
+    },
+    {
+      "name": "tdd",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/tdd",
+      "local_path": "skills/tdd"
+    },
+    {
+      "name": "to-spec",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/to-spec",
+      "local_path": "skills/to-spec"
+    },
+    {
+      "name": "to-tickets",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/to-tickets",
+      "local_path": "skills/to-tickets"
+    },
+    {
+      "name": "triage",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/triage",
+      "local_path": "skills/triage"
+    },
+    {
+      "name": "wayfinder",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/wayfinder",
+      "local_path": "skills/wayfinder"
+    },
+    {
+      "name": "teach",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/productivity/teach",
+      "local_path": "skills/teach"
+    },
+    {
+      "name": "writing-great-skills",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/productivity/writing-great-skills",
+      "local_path": "skills/writing-great-skills"
+    },
+    {
+      "name": "code-review",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/code-review",
+      "local_path": "vendor-cache/code-review",
+      "_comment": "Pristine mirror only, deliberately outside skills/ so it's never symlinked/loaded. Never hand-edit. See forks[] for the usable version."
+    }
+  ],
+  "forks": [
+    {
+      "name": "two-axis-code-review",
+      "forked_from": "code-review",
+      "forked_at_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "local_path": "skills/two-axis-code-review",
+      "reason": "Renamed to avoid colliding with this repo's existing general-purpose code-review skill. Diff skills/two-axis-code-review against vendor-cache/code-review after any update to see what upstream changed vs. what we changed.",
+      "_comment": "update-vendor-skills.ipynb does not yet know how to handle forks — see README Roadmap. Manual process for now: update vendor-cache/code-review via the normal vendor flow, then hand-merge relevant changes into skills/two-axis-code-review."
     }
   ]
 }
