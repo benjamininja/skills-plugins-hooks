@@ -41,10 +41,28 @@
       "name": "grill-with-docs",
       "repo": "mattpocock/skills",
       "branch": "main",
-      "pinned_ref": "e3b90b5",
-      "pinned_commit": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
       "source_path": "skills/engineering/grill-with-docs",
       "local_path": "skills/grill-with-docs"
+    },
+    {
+      "name": "grilling",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/productivity/grilling",
+      "local_path": "skills/grilling"
+    },
+    {
+      "name": "domain-modeling",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/domain-modeling",
+      "local_path": "skills/domain-modeling"
     },
     {
       "name": "handoff",

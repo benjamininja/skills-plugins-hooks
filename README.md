@@ -22,7 +22,9 @@ Some skills are authored here; others are vendored from upstream projects and cr
 │   ├── azure-resource-manager-playwright-dotnet/   # Azure Playwright Testing ARM SDK (.NET)
 │   ├── everything-claude-code/                 # Claude Code conventions reference
 │   ├── grill-me/                               # stress-test a plan via interview
-│   ├── grill-with-docs/                        # grill a plan against your docs
+│   ├── grilling/                               # sequential interview discipline (grill-with-docs dependency)
+│   ├── domain-modeling/                        # CONTEXT.md/ADR discipline (grill-with-docs dependency)
+│   ├── grill-with-docs/                        # thin pointer: runs /grilling using /domain-modeling
 │   └── handoff/                                # compact a session into a handoff doc
 ├── plugins/                                    # reserved: bundled skill+hook+MCP packages (empty — see Roadmap)
 └── hooks/                                      # reserved: standalone event-triggered hooks (empty — see Roadmap)
@@ -61,7 +63,9 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 | **azure-resource-manager-playwright-dotnet** | Azure Resource Manager SDK for Microsoft Playwright Testing in .NET — management-plane ops (workspaces, quotas, name availability). | [microsoft/skills](https://github.com/microsoft/skills) |
 | **everything-claude-code** | Development conventions and patterns reference generated from the everything-claude-code project. | [affaan-m/ECC](https://github.com/affaan-m/ECC) |
 | **grill-me** | Interview the user relentlessly about a plan until reaching shared understanding, resolving each branch of the decision tree. | [mattpocock/skills](https://github.com/mattpocock/skills) |
-| **grill-with-docs** | Grilling session that challenges a plan against the existing domain model and updates docs (CONTEXT.md, ADRs) inline. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **grilling** | Sequential, one-question-at-a-time interview discipline: withhold execution until shared understanding is reached. Depended on by `grill-with-docs`. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **domain-modeling** | Active discipline for building/sharpening a project's domain model: challenge terminology, stress-test with scenarios, maintain `CONTEXT.md` and ADRs inline. Depended on by `grill-with-docs`. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **grill-with-docs** | Thin orchestrator: runs a `/grilling` session using the `/domain-modeling` skill. | [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **handoff** | Compact the current conversation into a handoff document for another agent to pick up. | [mattpocock/skills](https://github.com/mattpocock/skills) |
 
 ---
@@ -76,7 +80,9 @@ Vendored skills are static copies of a single skill folder from each upstream re
 | azure-resource-manager-playwright-dotnet | `microsoft/skills` | `684313b` | `.github/plugins/azure-sdk-dotnet/skills/azure-resource-manager-playwright-dotnet/` |
 | everything-claude-code | `affaan-m/ECC` | `64cd1ba` | `.claude/skills/everything-claude-code/` |
 | grill-me | `mattpocock/skills` | `e3b90b5` | `skills/productivity/grill-me/` |
-| grill-with-docs | `mattpocock/skills` | `e3b90b5` | `skills/engineering/grill-with-docs/` |
+| grilling | `mattpocock/skills` | `391a270` | `skills/productivity/grilling/` |
+| domain-modeling | `mattpocock/skills` | `391a270` | `skills/engineering/domain-modeling/` |
+| grill-with-docs | `mattpocock/skills` | `391a270` | `skills/engineering/grill-with-docs/` |
 | handoff | `mattpocock/skills` | `e3b90b5` | `skills/productivity/handoff/` |
 
 ### Related (not a skill)
@@ -109,9 +115,11 @@ To add a new vendored skill, copy its folder into `skills/` and add a matching e
 
 ## Roadmap
 
-`plugins/` and `hooks/` are scaffolded but intentionally empty. Planned follow-on work:
+`plugins/` and `hooks/` are scaffolded but intentionally empty. Status:
 
-- **Saturate**: scan [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) and diff this repo's vendored [mattpocock/skills](https://github.com/mattpocock/skills) entries (`skills/productivity/`, `skills/engineering/`) against upstream to find gaps — e.g. `grilling` and `domain-modeling`, which `grill-with-docs` references but this repo doesn't yet vendor.
-- **Vendor drift check**: `grill-with-docs`'s local content has diverged from its pinned upstream commit in a way that isn't just cosmetic (upstream is now a 4-line pointer to `/grilling` + `/domain-modeling`; local is a full standalone implementation). `update-vendor-skills.ipynb` has no mechanism to detect this kind of drift today — only staleness of the pinned commit. Needs a fork/drift-tracking design before the next vendoring pass.
+- ~~**Vendor drift fix**: `grill-with-docs` had diverged from upstream (a full standalone implementation vs. upstream's 4-line pointer to `/grilling` + `/domain-modeling`).~~ **Done** — both dependencies are now vendored and `grill-with-docs` realigned to upstream's thin pointer.
+- **Saturate (in progress)**: `mattpocock/skills/productivity` and `/engineering` have ~17 more skills not yet evaluated (`ask-matt`, `code-review`, `codebase-design`, `diagnosing-bugs`, `implement`, `improve-codebase-architecture`, `prototype`, `research`, `resolving-merge-conflicts`, `setup-matt-pocock-skills`, `tdd`, `teach`, `to-spec`, `to-tickets`, `triage`, `wayfinder`, `writing-great-skills`) — pending a relevance pass, not blind-vendored.
+- **ponytail evaluation**: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) is a direct competitor to `caveman` (its own benchmark suite scores against caveman) and ships a real multi-platform `plugin.json`/`marketplace.json` pattern worth using as a reference for populating `plugins/`. Not yet evaluated.
+- **`update-vendor-skills.ipynb` rework**: still has no drift-detection (only staleness-of-pinned-commit), no fork-tracking, and no incoming/outgoing manifest concept. Deferred until the saturation/ponytail passes above establish real cases to design against.
 - **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by whatever lands in `plugins/`/`hooks/` above.
 - **Enforcement**: hooks/subagents that scan repo structure on check-in for compliance with the agreed template, and flag any skill/plugin/hook checked in from a non-central source.
