@@ -14,10 +14,6 @@ Some skills are authored here; others are vendored from upstream projects and cr
 ├── vendor-skills.json                          # manifest: pins each vendored skill's upstream commit + forks
 ├── vendor-cache/                               # pristine, never-loaded mirrors of forked skills (diff target)
 │   └── code-review/                            # upstream mirror of engineering/code-review
-├── common/                                     # shared reference docs for the powerbi-authoring skills
-│   ├── COMMON-CLI.md
-│   ├── COMMON-CORE.md
-│   └── ITEM-DEFINITIONS-CORE.md
 ├── tools/
 │   └── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
 ├── skills/                                     # every folder here gets symlinked/loaded as one library
@@ -55,7 +51,11 @@ Some skills are authored here; others are vendored from upstream projects and cr
 │   ├── powerbi-report-authoring/               # PBIR/PBIP report file mechanics
 │   ├── powerbi-report-design/                  # report archetypes, layout, theming, accessibility
 │   ├── powerbi-report-management/              # Fabric report item CRUD via REST API
-│   └── powerbi-report-planning/                # requirements, page plan, approval gate
+│   ├── powerbi-report-planning/                # requirements, page plan, approval gate
+│   └── _powerbi-authoring-common/              # NOT a skill (no SKILL.md) — shared reference docs
+│       ├── COMMON-CLI.md                       #   for the powerbi-authoring family above
+│       ├── COMMON-CORE.md
+│       └── ITEM-DEFINITIONS-CORE.md
 ├── plugins/
 │   └── fabric-collection/                      # manifest-only: fabric-authoring/operations/skills (see plugins/README.md)
 └── hooks/                                      # reserved: standalone event-triggered hooks (empty — see Roadmap)
@@ -261,7 +261,7 @@ Vendored skills are static copies of a single skill folder from each upstream re
 | powerbi-report-design | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-design/` |
 | powerbi-report-management | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-management/` |
 | powerbi-report-planning | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-planning/` |
-| powerbi-authoring-common *(→ `common/`)* | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/common/` |
+| powerbi-authoring-common *(→ `skills/_powerbi-authoring-common/`)* | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/common/` |
 | ponytail | `DietrichGebert/ponytail` | `14a0d79` | `.openclaw/skills/ponytail/` |
 | ponytail-debt | `DietrichGebert/ponytail` | `14a0d79` | `.openclaw/skills/ponytail-debt/` |
 
