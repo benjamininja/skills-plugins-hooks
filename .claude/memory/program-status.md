@@ -101,9 +101,13 @@ to trust it elsewhere and we are not there yet."
 2. ~~Skill-stage/domain routing map~~ — done, merged.
 3. ~~This repo's own memory architecture + `common/` relocation~~ — done,
    merged (all 4 PRs: #6, #8, #9 here; #2 on `project-memory-template`).
-4. ~~`continual-learning` hook port~~ — built (`hooks/continual-learning/`:
-   `learn.sh`, `settings-snippet.json`, README), not yet merged or
-   installed on this machine (missing `sqlite3`/`jq`). See `PLAN.md`.
+4. ~~`continual-learning` hook port~~ — built and merged, PR #11
+   (`hooks/continual-learning/`: `learn.sh`, `settings-snippet.json`,
+   README). **Not yet activated**: `sqlite3`/`jq` aren't on `PATH` in this
+   machine's Git Bash, so the hook would no-op if installed as-is.
+   Deliberately left as an open gate rather than silently installed —
+   which binaries, how (winget/choco/manual), and whether `jq` is
+   optional long-term all still need a real decision. See `PLAN.md`.
 5. **Git guardrail hook** — never-push-to-`main` enforcement. Re-ranked to
    directly after `continual-learning`, ahead of the hygiene hook and
    regression-testing standard, per the user's explicit stance that enough

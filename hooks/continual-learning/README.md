@@ -32,6 +32,19 @@ actual hook system (`settings.json`, `SessionStart`/`PostToolUse`/
 - **Schema, decay (60-day TTL / hit-count-3 floor), and two-tier scope are a
   faithful 1:1 port** — no changes there.
 
+## Activation gate — not yet installed anywhere
+
+Code is merged; the hook is **not active** on any machine yet. Neither
+`sqlite3` nor `jq` is on `PATH` in this project's primary Git Bash
+environment, so installing as-is today would register a hook that silently
+no-ops at every event. Deliberately left un-installed rather than adding
+the binaries ad hoc — getting `sqlite3`/`jq` onto `PATH` is its own small
+decision (winget vs. choco vs. manual download, whether `jq` is worth
+requiring at all vs. accepting its degrade path long-term) that deserves a
+plan-and-crystallize pass before flipping this on, not a rushed install
+buried inside an unrelated task. Treat "learnings are actually being
+captured" as the real done-condition — not "the script exists."
+
 ## Install (global — one machine-wide install, works in every repo)
 
 1. Copy the script to a fixed, machine-wide location:
