@@ -18,11 +18,14 @@ collapse to one-liners once their durable signal lands in an ADR or
 
 ## ➡ NEXT — in order
 
-1. **`continual-learning` hook port** — `hooks/README.md`'s reference
-   candidate (SQLite-backed learning-capture, built for GitHub Copilot
-   CLI's hook format) needs porting to Claude Code's `settings.json`/hook
-   event shape, not copying. This had dropped off tracking entirely until
-   caught 2026-07-11 — first up now.
+1. ~~`continual-learning` hook port~~ — done, see
+   `hooks/continual-learning/`. Ported (not copied) to Claude Code's
+   `SessionStart`/`PostToolUse`/`PostToolUseFailure`/`SessionEnd` events;
+   global-scope install (works in every repo, not just this one) with the
+   original's two-tier global+local SQLite DB design preserved. **Not yet
+   installed on this machine** — `sqlite3`/`jq` aren't on `PATH` here, so
+   the hook would currently no-op; install steps are in the hook's own
+   README. Needs a PR + merge like the rest of Goal 3.
 2. **Git guardrail hook** — never-push-to-`main` enforcement. User: "I
    REALLY feel we've experienced enough to begin this work" (referencing
    the direct-to-`main` incident this same session). Mechanism identified

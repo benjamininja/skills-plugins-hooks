@@ -3,25 +3,20 @@
 Reserved for standalone Claude Code hooks (event-triggered shell commands
 configured via `settings.json`) that belong to this central repo.
 
-## Reference candidate for Goal 3: continual-learning
+## `continual-learning` — ported and ready to install
 
+[`continual-learning/`](continual-learning/) is a Claude Code port of
 [microsoft/skills](https://github.com/microsoft/skills)'
 [`hooks/continual-learning`](https://github.com/microsoft/skills/tree/main/hooks/continual-learning)
-is a real, working example worth designing against when this folder gets
-populated: a SQLite-backed memory system with a two-tier scope (global
-`~/.copilot/learnings.db` for cross-project tool patterns, local
-`.copilot-memory/learnings.db` per repo), firing on session start/end and
-after each tool use — it surfaces prior learnings at session start, detects
-repeated tool-failure patterns at session end, and decays stale, low-value
-learnings automatically (60-day TTL, low hit count).
-
-**Not vendored as-is** — it's built for GitHub Copilot CLI's hook format
-(`.github/hooks/`, `hooks.json`, event names `sessionStart`/`postToolUse`/
-`sessionEnd`), which doesn't match Claude Code's hook system (`settings.json`,
-different event names/config shape). Porting it — not copying it — is real
-Goal 3 work: the self-reinforcing-memory pattern (auto-capture + decay,
-not hand-maintained markdown) is directly relevant to the project-memory-
-template synthesis.
+(built for GitHub Copilot CLI's hook format — ported, not copied, onto
+Claude Code's actual `settings.json`/`SessionStart`/`PostToolUse`/
+`PostToolUseFailure`/`SessionEnd` event system). SQLite-backed, two-tier
+scope (global `~/.claude/learnings.db` for cross-project tool patterns,
+local `<repo>/.claude/learnings.db` per repo) — surfaces prior learnings at
+session start, logs tool outcomes silently, detects repeated tool-failure
+patterns and decays stale/low-value learnings at session end (60-day TTL,
+low hit count). See its own README for install steps and the full list of
+what changed porting from Copilot CLI's format.
 
 ## Reference candidate, ready to adapt (not yet activated): git-guardrails-claude-code
 
