@@ -1,6 +1,6 @@
-# skills
+# skills-plugins-hooks
 
-A curated personal library of [Claude Code](https://claude.ai/code) skills — modular instruction sets that extend Claude's capabilities for specific domains and workflows. Every skill lives at a flat, loadable path (`skills/<name>/SKILL.md`) so the whole collection can be dropped straight into a Claude Code skills directory.
+The central repository for [Claude Code](https://claude.ai/code) skills, plugins, and hooks — modular instruction sets, bundled plugin packages, and event-triggered automations. Every skill lives at a flat, loadable path (`skills/<name>/SKILL.md`) so the whole collection can be dropped straight into a Claude Code skills directory.
 
 Some skills are authored here; others are vendored from upstream projects and credited below. Attribution lives in this README and in each skill's `SKILL.md` — not in the folder names.
 
@@ -10,20 +10,25 @@ Some skills are authored here; others are vendored from upstream projects and cr
 
 ```
 .
+├── manifest.json                               # top-level inventory: skills / plugins / hooks membership
 ├── vendor-skills.json                          # manifest: pins each vendored skill's upstream commit
 ├── tools/
 │   └── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
-└── skills/
-    ├── caveman/                                # token-compression communication
-    ├── fantasy-football-python/                # dynasty fantasy football ETL
-    │   └── references/data_model.md
-    ├── frontend-design/                        # production-grade frontend UI (+ LICENSE.txt)
-    ├── azure-resource-manager-playwright-dotnet/   # Azure Playwright Testing ARM SDK (.NET)
-    ├── everything-claude-code/                 # Claude Code conventions reference
-    ├── grill-me/                               # stress-test a plan via interview
-    ├── grill-with-docs/                        # grill a plan against your docs
-    └── handoff/                                # compact a session into a handoff doc
+├── skills/
+│   ├── caveman/                                # token-compression communication
+│   ├── fantasy-football-python/                # dynasty fantasy football ETL
+│   │   └── references/data_model.md
+│   ├── frontend-design/                        # production-grade frontend UI (+ LICENSE.txt)
+│   ├── azure-resource-manager-playwright-dotnet/   # Azure Playwright Testing ARM SDK (.NET)
+│   ├── everything-claude-code/                 # Claude Code conventions reference
+│   ├── grill-me/                               # stress-test a plan via interview
+│   ├── grill-with-docs/                        # grill a plan against your docs
+│   └── handoff/                                # compact a session into a handoff doc
+├── plugins/                                    # reserved: bundled skill+hook+MCP packages (empty — see Roadmap)
+└── hooks/                                      # reserved: standalone event-triggered hooks (empty — see Roadmap)
 ```
+
+`manifest.json` tracks *membership* (what's in this repo, by category). `vendor-skills.json` tracks *provenance* (upstream repo/commit for vendored skills) — the two are separate and both authoritative for their own concern.
 
 ---
 
@@ -99,3 +104,14 @@ To add a new vendored skill, copy its folder into `skills/` and add a matching e
 - One skill per folder under `skills/`, named for the skill, each with a `SKILL.md` at its root.
 - `SKILL.md` frontmatter carries `name` and `description` (and a trigger hint in the description).
 - Authored skills and vendored copies live side by side; provenance is tracked in **Sources & Credits**, not in the directory layout.
+
+---
+
+## Roadmap
+
+`plugins/` and `hooks/` are scaffolded but intentionally empty. Planned follow-on work:
+
+- **Saturate**: scan [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) and diff this repo's vendored [mattpocock/skills](https://github.com/mattpocock/skills) entries (`skills/productivity/`, `skills/engineering/`) against upstream to find gaps — e.g. `grilling` and `domain-modeling`, which `grill-with-docs` references but this repo doesn't yet vendor.
+- **Vendor drift check**: `grill-with-docs`'s local content has diverged from its pinned upstream commit in a way that isn't just cosmetic (upstream is now a 4-line pointer to `/grilling` + `/domain-modeling`; local is a full standalone implementation). `update-vendor-skills.ipynb` has no mechanism to detect this kind of drift today — only staleness of the pinned commit. Needs a fork/drift-tracking design before the next vendoring pass.
+- **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by whatever lands in `plugins/`/`hooks/` above.
+- **Enforcement**: hooks/subagents that scan repo structure on check-in for compliance with the agreed template, and flag any skill/plugin/hook checked in from a non-central source.

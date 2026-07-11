@@ -1,0 +1,14 @@
+{
+  "skills": [
+    "azure-resource-manager-playwright-dotnet",
+    "caveman",
+    "everything-claude-code",
+    "fantasy-football-python",
+    "frontend-design",
+    "grill-me",
+    "grill-with-docs",
+    "handoff"
+  ],
+  "plugins": [],
+  "hooks": []
+}
