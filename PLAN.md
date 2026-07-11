@@ -18,14 +18,21 @@ collapse to one-liners once their durable signal lands in an ADR or
 
 ## ➡ NEXT — in order
 
-1. ~~`continual-learning` hook port~~ — done, see
+1. ~~`continual-learning` hook port~~ — built and merged (PR #11), see
    `hooks/continual-learning/`. Ported (not copied) to Claude Code's
    `SessionStart`/`PostToolUse`/`PostToolUseFailure`/`SessionEnd` events;
    global-scope install (works in every repo, not just this one) with the
-   original's two-tier global+local SQLite DB design preserved. **Not yet
-   installed on this machine** — `sqlite3`/`jq` aren't on `PATH` here, so
-   the hook would currently no-op; install steps are in the hook's own
-   README. Needs a PR + merge like the rest of Goal 3.
+   original's two-tier global+local SQLite DB design preserved.
+   **Activation gate (open)**: this machine has neither `sqlite3` nor `jq`
+   on `PATH` in Git Bash, so the hook currently no-ops everywhere if
+   installed as-is. Before flipping it on, interrogate (plan +
+   crystallize, not just "go install it"): which binaries/how (winget vs.
+   choco vs. manual download+PATH edit), whether both are strictly
+   required or `jq`'s absence is an acceptable degrade long-term, and
+   whether this is a one-time machine setup step or something the hook's
+   own README should test/warn about at session start. Landing the code
+   was not landing the capability — treat "hook active and actually
+   persisting learnings" as the real done-condition, not "PR merged."
 2. **Git guardrail hook** — never-push-to-`main` enforcement. User: "I
    REALLY feel we've experienced enough to begin this work" (referencing
    the direct-to-`main` incident this same session). Mechanism identified
