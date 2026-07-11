@@ -57,14 +57,21 @@ All in `skills/`, `vendor-skills.json` is the source of truth:
   one level deep only); found and fixed genuine drift between
   `~/.claude/skills/` live copies and this repo's vendored copies
   (`fantasy-football-python`'s live version was more current;
-  `grill-with-docs`'s live version was stale) — PR #6, **still open,
-  unmerged** as of this writing.
+  `grill-with-docs`'s live version was stale) — merged.
 - Confirmed via VS Code's own docs that `.claude/skills/` is natively
   shared across Claude Code CLI, the VS Code extension, and VS Code's
   Agents-window Skills panel (the `agentskills.io` open standard) — no
   separate distribution mechanism needed for that surface.
-- Shipped the skill-stage/domain routing map (PR #7, merged) — all 34
-  skills cross-cut by Plan/Crystallize/Execute + domain.
+- Shipped the skill-stage/domain routing map (merged) — all 34 skills
+  cross-cut by Plan/Crystallize/Execute + domain.
+- Relocated `common/` → `skills/_powerbi-authoring-common/` (aimless at
+  repo root, only used by the powerbi-authoring family; nested inside
+  `skills/` over `plugins/` for shorter, more reliably-resolved relative
+  paths — reasoning in the merge commit, not a separate ADR).
+- Retrofitted this repo's own memory architecture (`CLAUDE.md`, `PLAN.md`,
+  `.claude/memory/`, 4 ADRs) — merged.
+- Merged all of the above (4 PRs total, 2 repos) — verified `main` on both
+  repos actually carries the content, not just open PRs claiming it does.
 - Ran a `two-axis-code-review` pass (Standards + Spec) against both this
   repo and `project-memory-template`'s shipped work — found and fixed 3
   real issues in `project-memory-template` (broken ADR-template link,
@@ -81,19 +88,33 @@ All in `skills/`, `vendor-skills.json` is the source of truth:
   state and decision-density past what a scratch store should hold; this
   is that Phase 0 consolidation.
 
-## Goal 3 remaining slate, user-sequenced 2026-07-11
+## Goal 3 remaining slate, re-sequenced 2026-07-11
 
-1. ~~Skill distribution beyond manual symlink~~ — fixed, PR #6 pending merge.
-2. ~~Skill-stage/domain routing map~~ — done, PR #7 merged.
-3. **Regression-testing standard** — design agreed, not yet built. Dynasty-
-   repo-facing: pytest + pre-commit + `check_sources.py` synthesis, general
-   standard doc in `project-memory-template`.
-4. **Git guardrail hook** — never-push-to-main enforcement; user ranked
-   this above where it was originally sequenced, citing the incident where
-   the agent itself violated the rule once (see root `preferences.md`).
-5. **Check-in hygiene hook** — flags empty/stale scaffold files + README
+Original order put regression-testing next; user re-sequenced after
+catching that `.claude/memory`/`docs/adr` were still empty on `main` (every
+PR was open, none merged) and that `continual-learning` had silently
+dropped off tracking. Stance: **this repo needs to be fully trustworthy on
+its own before being used as the pattern elsewhere** — "I need to be able
+to trust it elsewhere and we are not there yet."
+
+1. ~~Skill distribution beyond manual symlink~~ — done, merged.
+2. ~~Skill-stage/domain routing map~~ — done, merged.
+3. ~~This repo's own memory architecture + `common/` relocation~~ — done,
+   merged (all 4 PRs: #6, #8, #9 here; #2 on `project-memory-template`).
+4. **`continual-learning` hook port** — was flagged during Goal 2 as real
+   Goal 3 work directly relevant to `project-memory-template`, then fell
+   off the tracked list entirely until caught 2026-07-11. First up now.
+5. **Git guardrail hook** — never-push-to-`main` enforcement. Re-ranked to
+   directly after `continual-learning`, ahead of the hygiene hook and
+   regression-testing standard, per the user's explicit stance that enough
+   direct experience with the risk (the incident this session) exists to
+   build it now.
+6. **Check-in hygiene hook** — flags empty/stale scaffold files + README
    staleness.
-6. **`update-vendor-skills.ipynb` rework** — drift detection, fork-handling
+7. **Regression-testing standard** — moved to *last*, not because the
+   design is stale (it's fully grilled and agreed — see `PLAN.md`) but
+   because the user wants this repo's own tooling proven out first.
+8. **`update-vendor-skills.ipynb` rework** — drift detection, fork-handling
    automation, `plugin_manifests_only[]` awareness.
 
 ## How to apply
