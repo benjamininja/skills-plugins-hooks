@@ -116,8 +116,17 @@ to trust it elsewhere and we are not there yet."
    unlike `continual-learning` this one isn't gated on a missing binary —
    it's live from the next session on. See `PLAN.md` for the test matrix
    it was verified against, pre- and post-install.
-6. **Check-in hygiene hook** — flags empty/stale scaffold files + README
-   staleness.
+6. ~~Check-in hygiene hook~~ — built, PR open
+   ([project-memory-template#3](https://github.com/benjamininja/project-memory-template/pull/3)),
+   not yet merged. `pre-commit` framework hook (deliberately not
+   Claude-Code-native — needs to catch every commit path, not just
+   agent-driven ones), living in `project-memory-template` where the
+   scaffold it inspects is actually defined. Blocks unfilled template
+   placeholders and dangling `CLAUDE.md`/`README.md` references, scoped to
+   the current commit's diff only. Verified against 7 hand-built scenarios,
+   including the two edge cases the design review surfaced (a deletion
+   caught even without touching the referencing file; no retroactive
+   blocking on untouched pre-existing debt). See `PLAN.md`.
 7. **Regression-testing standard** — moved to *last*, not because the
    design is stale (it's fully grilled and agreed — see `PLAN.md`) but
    because the user wants this repo's own tooling proven out first.
