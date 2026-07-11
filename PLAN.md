@@ -43,9 +43,18 @@ collapse to one-liners once their durable signal lands in an ADR or
    live. Note: Claude Code reads hook config at session start, so this
    session (already running) isn't covered — it protects every session
    from the next one on.
-3. **Check-in hygiene hook** — flags empty/stale scaffold files + README
-   staleness (see the `README.md` Roadmap item logged during
-   `project-memory-template` planning).
+3. ~~Check-in hygiene hook~~ — built, PR open
+   ([project-memory-template#3](https://github.com/benjamininja/project-memory-template/pull/3)).
+   Lives in `project-memory-template` (not this repo's `hooks/`) as a
+   `pre-commit` framework hook, not a Claude-Code-native one — deliberate,
+   since it needs to catch every commit path, not just agent-driven ones
+   (ADR-0004 reasoning applied a second time). Blocks a commit that leaves
+   a copied template placeholder unfilled, or that leaves `CLAUDE.md`/
+   `README.md` pointing at a scaffold file that no longer exists; scoped to
+   what the current commit touches, so pre-existing debt never blocks an
+   unrelated commit. Git-recency staleness detection and an interactive
+   delete-offer were both designed against and explicitly deferred (see the
+   hook's own README) rather than built speculatively.
 4. **Regression-testing standard** — Dynasty-facing (pytest + pre-commit +
    `check_sources.py`), fully designed and grilled already (notebook
    strategy, pre-commit scope, `offline_smoke.py` rename, no venv wrapper,
