@@ -217,6 +217,102 @@
       "source_path": "skills/engineering/code-review",
       "local_path": "vendor-cache/code-review",
       "_comment": "Pristine mirror only, deliberately outside skills/ so it's never symlinked/loaded. Never hand-edit. See forks[] for the usable version."
+    },
+    {
+      "name": "microsoft-docs",
+      "repo": "microsoft/skills",
+      "branch": "main",
+      "pinned_ref": "c33193b",
+      "pinned_commit": "c33193b1b2dd14d5946e3c6213fd095ffa5b31df",
+      "source_path": ".github/skills/microsoft-docs",
+      "local_path": "skills/microsoft-docs"
+    },
+    {
+      "name": "semantic-model-authoring",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/semantic-model-authoring",
+      "local_path": "skills/semantic-model-authoring"
+    },
+    {
+      "name": "powerbi-report-authoring",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-authoring",
+      "local_path": "skills/powerbi-report-authoring"
+    },
+    {
+      "name": "powerbi-report-design",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-design",
+      "local_path": "skills/powerbi-report-design"
+    },
+    {
+      "name": "powerbi-report-management",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-management",
+      "local_path": "skills/powerbi-report-management"
+    },
+    {
+      "name": "powerbi-report-planning",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-planning",
+      "local_path": "skills/powerbi-report-planning"
+    },
+    {
+      "name": "powerbi-authoring-common",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/common",
+      "local_path": "common",
+      "_comment": "Shared reference docs (COMMON-CLI.md, COMMON-CORE.md, ITEM-DEFINITIONS-CORE.md) linked by the powerbi-authoring skills above via relative paths."
+    }
+  ],
+  "plugin_manifests_only": [
+    {
+      "name": "fabric-authoring",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/fabric-authoring/.github/plugin/plugin.json",
+      "local_path": "plugins/fabric-collection/fabric-authoring.plugin.json",
+      "_comment": "Manifest only — the ~12 skills it references are not physically vendored (unused Fabric workloads: Spark, Warehouse, Eventhouse, Eventstream, Activator, medallion). See plugins/README.md."
+    },
+    {
+      "name": "fabric-operations",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/fabric-operations/.github/plugin/plugin.json",
+      "local_path": "plugins/fabric-collection/fabric-operations.plugin.json",
+      "_comment": "Manifest only — see plugins/README.md."
+    },
+    {
+      "name": "fabric-skills",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/fabric-skills/.github/plugin/plugin.json",
+      "local_path": "plugins/fabric-collection/fabric-skills.plugin.json",
+      "_comment": "Manifest only — the full bundle (~30 skills), largely superset of fabric-authoring/fabric-operations. See plugins/README.md."
     }
   ],
   "forks": [

@@ -14,6 +14,10 @@ Some skills are authored here; others are vendored from upstream projects and cr
 ├── vendor-skills.json                          # manifest: pins each vendored skill's upstream commit + forks
 ├── vendor-cache/                               # pristine, never-loaded mirrors of forked skills (diff target)
 │   └── code-review/                            # upstream mirror of engineering/code-review
+├── common/                                     # shared reference docs for the powerbi-authoring skills
+│   ├── COMMON-CLI.md
+│   ├── COMMON-CORE.md
+│   └── ITEM-DEFINITIONS-CORE.md
 ├── tools/
 │   └── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
 ├── skills/                                     # every folder here gets symlinked/loaded as one library
@@ -43,8 +47,15 @@ Some skills are authored here; others are vendored from upstream projects and cr
 │   ├── two-axis-code-review/                   # FORK of code-review: Standards+Spec review (see below)
 │   ├── wayfinder/                              # chart huge, foggy efforts as a shared ticket map
 │   ├── teach/                                  # multi-session teaching workspace for any topic
-│   └── writing-great-skills/                   # reference for authoring skills well
-├── plugins/                                    # reserved: bundled skill+hook+MCP packages (empty — see Roadmap)
+│   ├── writing-great-skills/                   # reference for authoring skills well
+│   ├── microsoft-docs/                         # query official Microsoft Learn docs (MCP + CLI fallback)
+│   ├── semantic-model-authoring/                # DAX/TMDL/PBIP semantic model authoring
+│   ├── powerbi-report-authoring/               # PBIR/PBIP report file mechanics
+│   ├── powerbi-report-design/                  # report archetypes, layout, theming, accessibility
+│   ├── powerbi-report-management/              # Fabric report item CRUD via REST API
+│   └── powerbi-report-planning/                # requirements, page plan, approval gate
+├── plugins/
+│   └── fabric-collection/                      # manifest-only: fabric-authoring/operations/skills (see plugins/README.md)
 └── hooks/                                      # reserved: standalone event-triggered hooks (empty — see Roadmap)
 ```
 
@@ -105,6 +116,17 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 | **teach** | Multi-session teaching workspace for any topic — not engineering-specific. | [mattpocock/skills](https://github.com/mattpocock/skills) |
 | **writing-great-skills** | Reference for writing and editing skills well. | [mattpocock/skills](https://github.com/mattpocock/skills) |
 
+**Power BI / Microsoft Fabric** (from `powerbi-authoring`, one of four `skills-for-fabric` bundles — see `plugins/README.md` for why only this one is fully vendored):
+
+| Skill | Description | Source |
+|-------|-------------|--------|
+| **semantic-model-authoring** | DAX/TMDL/PBIP semantic model authoring — modeling guidelines, naming conventions, DAX perf patterns, Direct Lake. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-planning** | Requirements, page plan, approval gate — first step of the report flow. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-design** | Archetype routing, layout, theme, accessibility. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-authoring** | PBIR/PBIP file mechanics, Desktop reload/screenshot. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-management** | Fabric report item CRUD via REST API. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **microsoft-docs** | Query official Microsoft Learn documentation (Azure, .NET, Fabric, Power Platform, etc.) via MCP, with a CLI fallback. | [microsoft/skills](https://github.com/microsoft/skills) |
+
 **Other:**
 
 | Skill | Description | Source |
@@ -113,7 +135,10 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 | **azure-resource-manager-playwright-dotnet** | Azure Resource Manager SDK for Microsoft Playwright Testing in .NET — management-plane ops (workspaces, quotas, name availability). | [microsoft/skills](https://github.com/microsoft/skills) |
 | **everything-claude-code** | Development conventions and patterns reference generated from the everything-claude-code project. | [affaan-m/ECC](https://github.com/affaan-m/ECC) |
 
-**Deliberately not vendored:** Pocock's `research` skill (thin background-agent-reads-primary-sources tool) — the existing `deep-research` skill already covers this with more rigor (multi-source fan-out, adversarial claim verification).
+**Deliberately not vendored:**
+- Pocock's `research` skill (thin background-agent-reads-primary-sources tool) — the existing `deep-research` skill already covers this with more rigor (multi-source fan-out, adversarial claim verification).
+- `skills-for-fabric`'s `check-updates` skill — redundant with this repo's own `vendor-skills.json` / `update-vendor-skills.ipynb` mechanism.
+- `skills-for-fabric`'s `fabric-authoring`, `fabric-operations`, and `fabric-skills` bundles beyond their manifests — ~30 skills for Fabric workloads (Spark, Warehouse, KQL/Eventhouse, Eventstreams, Activator, migrations) unused by any project in this repo. See `plugins/README.md`.
 
 ---
 
@@ -147,6 +172,15 @@ Vendored skills are static copies of a single skill folder from each upstream re
 | teach | `mattpocock/skills` | `391a270` | `skills/productivity/teach/` |
 | writing-great-skills | `mattpocock/skills` | `391a270` | `skills/productivity/writing-great-skills/` |
 | code-review *(pristine mirror — see `forks[]`)* | `mattpocock/skills` | `391a270` | `skills/engineering/code-review/` → `vendor-cache/code-review/` |
+| microsoft-docs | `microsoft/skills` | `c33193b` | `.github/skills/microsoft-docs/` |
+| semantic-model-authoring | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/semantic-model-authoring/` |
+| powerbi-report-authoring | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-authoring/` |
+| powerbi-report-design | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-design/` |
+| powerbi-report-management | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-management/` |
+| powerbi-report-planning | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-planning/` |
+| powerbi-authoring-common *(→ `common/`)* | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/common/` |
+
+Manifest-only entries (`fabric-authoring`, `fabric-operations`, `fabric-skills`) live under a separate `plugin_manifests_only[]` array in `vendor-skills.json` — see `plugins/README.md`.
 
 ### Related (not a skill)
 
@@ -178,11 +212,15 @@ To add a new vendored skill, copy its folder into `skills/` and add a matching e
 
 ## Roadmap
 
-`plugins/` and `hooks/` are scaffolded but intentionally empty. Status:
+`hooks/` is scaffolded but intentionally empty; `plugins/` now holds manifest-only Fabric bundles. Status:
 
 - ~~**Vendor drift fix**: `grill-with-docs` had diverged from upstream.~~ **Done** — both dependencies (`grilling`, `domain-modeling`) vendored, `grill-with-docs` realigned to upstream's thin pointer.
 - ~~**Saturate `mattpocock/skills`**: evaluate the full `productivity`/`engineering` catalog.~~ **Done** — adopted the full idea→ship engineering flow (see Skills table above) using its local-markdown tracker mode. Skipped `research` (redundant with `deep-research`). Forked `code-review` → `two-axis-code-review` (naming collision with the existing general-purpose `code-review` skill) using the `vendor-cache/` pristine-mirror pattern documented above.
-- **ponytail evaluation**: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) is a direct competitor to `caveman` (its own benchmark suite scores against caveman) and ships a real multi-platform `plugin.json`/`marketplace.json` pattern worth using as a reference for populating `plugins/`. Not yet evaluated.
-- **`update-vendor-skills.ipynb` rework**: still has no drift-detection (only staleness-of-pinned-commit) and no incoming/outgoing manifest concept. Fork-handling now has a real first case (`two-axis-code-review`) to design against — currently a manual process (see `forks[]` in `vendor-skills.json`).
-- **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by the engineering flow now vendored above.
+- ~~**mattpocock/skills hooks check**~~ **Done** — no `hooks/` directory exists upstream; nothing left behind.
+- ~~**microsoft-docs skill**~~ **Done** — vendored for Microsoft research/planning scoping.
+- ~~**continual-learning hook review**~~ **Done, not vendored as-is** — see `hooks/README.md`: a real SQLite-backed learning-capture pattern, but built for GitHub Copilot CLI's hook format, not Claude Code's. Flagged as Goal 3 input (port, don't copy).
+- ~~**skills-for-fabric plugins**~~ **Done** — `powerbi-authoring` fully vendored (5 skills + `common/`, real Power BI/Fabric usage in this user's projects); `fabric-authoring`/`fabric-operations`/`fabric-skills` kept manifest-only (~30 unused-workload skills, heavily overlapping each other) — see `plugins/README.md`.
+- **ponytail evaluation**: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) is a direct competitor to `caveman` (its own benchmark suite scores against caveman) and ships a real multi-platform `plugin.json`/`marketplace.json` pattern — now corroborated by `skills-for-fabric`'s own plugin.json convention. Not yet evaluated.
+- **`update-vendor-skills.ipynb` rework**: still has no drift-detection (only staleness-of-pinned-commit) and no incoming/outgoing manifest concept. Fork-handling now has a real first case (`two-axis-code-review`) to design against — currently a manual process (see `forks[]` in `vendor-skills.json`). Also needs to learn about `plugin_manifests_only[]` (manifest-tracked-but-not-vendored entries).
+- **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by the engineering flow now vendored above and the `continual-learning` hook pattern.
 - **Enforcement**: hooks/subagents that scan repo structure on check-in for compliance with the agreed template, and flag any skill/plugin/hook checked in from a non-central source.
