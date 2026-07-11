@@ -127,9 +127,15 @@ to trust it elsewhere and we are not there yet."
    including the two edge cases the design review surfaced (a deletion
    caught even without touching the referencing file; no retroactive
    blocking on untouched pre-existing debt). See `PLAN.md`.
-7. **Regression-testing standard** — moved to *last*, not because the
-   design is stale (it's fully grilled and agreed — see `PLAN.md`) but
-   because the user wants this repo's own tooling proven out first.
+7. ~~Regression-testing standard~~ — built 2026-07-11, both PRs open (not
+   yet merged): `project-memory-template#4` (general standard doc) and
+   `Python-PowerBI-DynastyFantasyFootball#19` (retrofit: `pyproject.toml`,
+   `tests/test_etl_helpers.py`, `offline_smoke.py` → `test_offline_smoke.py`,
+   `.pre-commit-config.yaml`, ADR-0008). Surfaced and fixed a real
+   pre-existing bug: `capmath.py` (used by the bot's `cap`/`roster`
+   commands) was never covered by `offline_smoke.py`'s `fetch_parquet`
+   monkeypatch, so that "offline" smoke test silently made real GitHub
+   calls with a fake token. See `PLAN.md` for the full verification list.
 8. **`update-vendor-skills.ipynb` rework** — drift detection, fork-handling
    automation, `plugin_manifests_only[]` awareness.
 
