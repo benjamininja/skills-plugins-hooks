@@ -1,14 +1,44 @@
 {
   "skills": [
+    "ask-matt",
     "azure-resource-manager-playwright-dotnet",
     "caveman",
+    "codebase-design",
+    "diagnosing-bugs",
+    "domain-modeling",
     "everything-claude-code",
     "fantasy-football-python",
     "frontend-design",
     "grill-me",
     "grill-with-docs",
-    "handoff"
+    "grilling",
+    "handoff",
+    "implement",
+    "improve-codebase-architecture",
+    "microsoft-docs",
+    "ponytail",
+    "ponytail-debt",
+    "powerbi-report-authoring",
+    "powerbi-report-design",
+    "powerbi-report-management",
+    "powerbi-report-planning",
+    "prototype",
+    "resolving-merge-conflicts",
+    "semantic-model-authoring",
+    "setup-matt-pocock-skills",
+    "tdd",
+    "teach",
+    "to-spec",
+    "to-tickets",
+    "triage",
+    "two-axis-code-review",
+    "wayfinder",
+    "writing-great-skills"
   ],
-  "plugins": [],
+  "plugins": [
+    "fabric-collection/fabric-authoring (manifest-only)",
+    "fabric-collection/fabric-operations (manifest-only)",
+    "fabric-collection/fabric-skills (manifest-only)"
+  ],
   "hooks": []
 }

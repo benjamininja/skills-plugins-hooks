@@ -11,24 +11,61 @@ Some skills are authored here; others are vendored from upstream projects and cr
 ```
 .
 ├── manifest.json                               # top-level inventory: skills / plugins / hooks membership
-├── vendor-skills.json                          # manifest: pins each vendored skill's upstream commit
+├── vendor-skills.json                          # manifest: pins each vendored skill's upstream commit + forks
+├── vendor-cache/                               # pristine, never-loaded mirrors of forked skills (diff target)
+│   └── code-review/                            # upstream mirror of engineering/code-review
+├── common/                                     # shared reference docs for the powerbi-authoring skills
+│   ├── COMMON-CLI.md
+│   ├── COMMON-CORE.md
+│   └── ITEM-DEFINITIONS-CORE.md
 ├── tools/
 │   └── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
-├── skills/
-│   ├── caveman/                                # token-compression communication
+├── skills/                                     # every folder here gets symlinked/loaded as one library
+│   ├── caveman/                                # token-compression communication (prose)
+│   ├── ponytail/                                # YAGNI/minimal-diff discipline for code generation (pairs with caveman)
+│   ├── ponytail-debt/                           # harvest `ponytail:` shortcut comments into a ledger
 │   ├── fantasy-football-python/                # dynasty fantasy football ETL
 │   │   └── references/data_model.md
 │   ├── frontend-design/                        # production-grade frontend UI (+ LICENSE.txt)
 │   ├── azure-resource-manager-playwright-dotnet/   # Azure Playwright Testing ARM SDK (.NET)
 │   ├── everything-claude-code/                 # Claude Code conventions reference
-│   ├── grill-me/                               # stress-test a plan via interview
-│   ├── grill-with-docs/                        # grill a plan against your docs
-│   └── handoff/                                # compact a session into a handoff doc
-├── plugins/                                    # reserved: bundled skill+hook+MCP packages (empty — see Roadmap)
+│   ├── grill-me/                               # stress-test a plan via interview (no codebase)
+│   ├── grilling/                               # sequential interview discipline (grill-with-docs dependency)
+│   ├── domain-modeling/                        # CONTEXT.md/ADR discipline (grill-with-docs dependency)
+│   ├── grill-with-docs/                        # thin pointer: runs /grilling using /domain-modeling
+│   ├── handoff/                                # compact a session into a handoff doc
+│   ├── ask-matt/                               # router over the idea→ship engineering flow below
+│   ├── codebase-design/                        # deep-module vocabulary (module/interface/depth/seam)
+│   ├── diagnosing-bugs/                        # diagnosis loop for hard bugs/perf regressions
+│   ├── implement/                              # build a spec/ticket via /tdd, closes with /two-axis-code-review
+│   ├── improve-codebase-architecture/          # scan for deepening opportunities, visual HTML report
+│   ├── prototype/                              # throwaway code to answer a design question
+│   ├── resolving-merge-conflicts/              # resolve an in-progress git merge/rebase conflict
+│   ├── setup-matt-pocock-skills/               # bootstrap: issue tracker, triage labels, doc layout
+│   ├── tdd/                                    # red-green-refactor discipline, seam-based testing
+│   ├── to-spec/                                # synthesize the conversation into a spec/PRD
+│   ├── to-tickets/                             # break a spec into tracer-bullet tickets with blocking edges
+│   ├── triage/                                 # state machine for incoming issues/external PRs
+│   ├── two-axis-code-review/                   # FORK of code-review: Standards+Spec review (see below)
+│   ├── wayfinder/                              # chart huge, foggy efforts as a shared ticket map
+│   ├── teach/                                  # multi-session teaching workspace for any topic
+│   ├── writing-great-skills/                   # reference for authoring skills well
+│   ├── microsoft-docs/                         # query official Microsoft Learn docs (MCP + CLI fallback)
+│   ├── semantic-model-authoring/                # DAX/TMDL/PBIP semantic model authoring
+│   ├── powerbi-report-authoring/               # PBIR/PBIP report file mechanics
+│   ├── powerbi-report-design/                  # report archetypes, layout, theming, accessibility
+│   ├── powerbi-report-management/              # Fabric report item CRUD via REST API
+│   └── powerbi-report-planning/                # requirements, page plan, approval gate
+├── plugins/
+│   └── fabric-collection/                      # manifest-only: fabric-authoring/operations/skills (see plugins/README.md)
 └── hooks/                                      # reserved: standalone event-triggered hooks (empty — see Roadmap)
 ```
 
-`manifest.json` tracks *membership* (what's in this repo, by category). `vendor-skills.json` tracks *provenance* (upstream repo/commit for vendored skills) — the two are separate and both authoritative for their own concern.
+`manifest.json` tracks *membership* (what's in this repo, by category). `vendor-skills.json` tracks *provenance* (upstream repo/commit for vendored skills, plus a `forks[]` list for skills that diverged from a faithful vendor copy) — the two are separate and both authoritative for their own concern.
+
+### Forked skills
+
+A **fork** happens when we need a skill to diverge from its upstream vendor copy — usually a rename to avoid a naming collision — while still being able to diff against upstream later. The pattern: keep a pristine, untouched mirror in `vendor-cache/<name>/` (git-tracked, pinned in `vendor-skills.json` like any normal vendor, but **never symlinked** since `skills/` is loaded wholesale), and put the actual usable, edited version in `skills/<fork-name>/`. `vendor-skills.json`'s `forks[]` array links the two. First (and so far only) case: `two-axis-code-review`, forked from `mattpocock/skills`' `engineering/code-review` to avoid colliding with this repo's existing general-purpose `code-review` skill.
 
 ---
 
@@ -55,14 +92,63 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 
 ### Vendored from upstream
 
+**Code-generation discipline** (pairs with `caveman`, doesn't compete with it — caveman governs prose, ponytail governs what gets built):
+
+| Skill | Description | Source |
+|-------|-------------|--------|
+| **ponytail** | YAGNI ladder for any coding task: does this need to exist → reuse what's here → stdlib → native → existing dependency → one line → minimum code. Auto-active every response, default intensity `full`. | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| **ponytail-debt** | Harvests `ponytail:` shortcut-comment markers (deliberate simplifications with a named ceiling/upgrade path) into one tracked ledger. | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+
+**Idea → ship engineering flow** (see `ask-matt` for the full map):
+
+| Skill | Description | Source |
+|-------|-------------|--------|
+| **grill-with-docs** | Thin orchestrator: runs a `/grilling` session using the `/domain-modeling` skill. Start here when you have a codebase. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **grill-me** | Same relentless interview, but stateless — for when you have no codebase. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **grilling** | Sequential, one-question-at-a-time interview discipline: withhold execution until shared understanding is reached. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **domain-modeling** | Active discipline for building/sharpening a project's domain model: challenge terminology, stress-test with scenarios, maintain `CONTEXT.md` and ADRs inline. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **to-spec** | Synthesize the current conversation into a spec/PRD, publish to the issue tracker. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **to-tickets** | Break a spec/plan into tracer-bullet tickets, each declaring its blocking edges. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **implement** | Build a ticket via `/tdd` at pre-agreed seams, close out with `/two-axis-code-review`. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **tdd** | Red-green-refactor discipline: what a good test is, seams, anti-patterns. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **two-axis-code-review** *(forked)* | Standards + Spec review of a diff against a fixed point, in parallel sub-agents. Forked from upstream `code-review` — renamed to avoid colliding with this repo's general-purpose `code-review` skill. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **triage** | Move incoming issues/external PRs through a state machine: categorize, verify, grill if needed, write agent-ready briefs. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **diagnosing-bugs** | Diagnosis loop for hard bugs/perf regressions — tight feedback loop, then fix with a regression test. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **wayfinder** | Chart a huge, foggy effort as a shared map of investigation tickets, resolved one at a time. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **improve-codebase-architecture** | Scan for deepening opportunities, present as a visual HTML report, grill through the chosen one. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **codebase-design** | Deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality). | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **prototype** | Small, throwaway program that answers one design question. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **resolving-merge-conflicts** | Resolve an in-progress git merge/rebase conflict. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **ask-matt** | Router: which skill or flow fits your situation, given everything above. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **setup-matt-pocock-skills** | Bootstrap: configures the issue tracker (GitHub/GitLab/local-markdown), triage labels, and domain doc layout the flow above assumes. Run once first. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **handoff** | Compact the current conversation into a handoff document for another agent to pick up. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **teach** | Multi-session teaching workspace for any topic — not engineering-specific. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+| **writing-great-skills** | Reference for writing and editing skills well. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+
+**Power BI / Microsoft Fabric** (from `powerbi-authoring`, one of four `skills-for-fabric` bundles — see `plugins/README.md` for why only this one is fully vendored):
+
+| Skill | Description | Source |
+|-------|-------------|--------|
+| **semantic-model-authoring** | DAX/TMDL/PBIP semantic model authoring — modeling guidelines, naming conventions, DAX perf patterns, Direct Lake. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-planning** | Requirements, page plan, approval gate — first step of the report flow. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-design** | Archetype routing, layout, theme, accessibility. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-authoring** | PBIR/PBIP file mechanics, Desktop reload/screenshot. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **powerbi-report-management** | Fabric report item CRUD via REST API. | [microsoft/skills-for-fabric](https://github.com/microsoft/skills-for-fabric) |
+| **microsoft-docs** | Query official Microsoft Learn documentation (Azure, .NET, Fabric, Power Platform, etc.) via MCP, with a CLI fallback. | [microsoft/skills](https://github.com/microsoft/skills) |
+
+**Other:**
+
 | Skill | Description | Source |
 |-------|-------------|--------|
 | **frontend-design** | Create distinctive, production-grade frontend interfaces that avoid generic "AI slop" aesthetics. | [anthropics/claude-code](https://github.com/anthropics/claude-code) |
 | **azure-resource-manager-playwright-dotnet** | Azure Resource Manager SDK for Microsoft Playwright Testing in .NET — management-plane ops (workspaces, quotas, name availability). | [microsoft/skills](https://github.com/microsoft/skills) |
 | **everything-claude-code** | Development conventions and patterns reference generated from the everything-claude-code project. | [affaan-m/ECC](https://github.com/affaan-m/ECC) |
-| **grill-me** | Interview the user relentlessly about a plan until reaching shared understanding, resolving each branch of the decision tree. | [mattpocock/skills](https://github.com/mattpocock/skills) |
-| **grill-with-docs** | Grilling session that challenges a plan against the existing domain model and updates docs (CONTEXT.md, ADRs) inline. | [mattpocock/skills](https://github.com/mattpocock/skills) |
-| **handoff** | Compact the current conversation into a handoff document for another agent to pick up. | [mattpocock/skills](https://github.com/mattpocock/skills) |
+
+**Deliberately not vendored:**
+- Pocock's `research` skill (thin background-agent-reads-primary-sources tool) — the existing `deep-research` skill already covers this with more rigor (multi-source fan-out, adversarial claim verification).
+- `skills-for-fabric`'s `check-updates` skill — redundant with this repo's own `vendor-skills.json` / `update-vendor-skills.ipynb` mechanism.
+- `skills-for-fabric`'s `fabric-authoring`, `fabric-operations`, and `fabric-skills` bundles beyond their manifests — ~30 skills for Fabric workloads (Spark, Warehouse, KQL/Eventhouse, Eventstreams, Activator, migrations) unused by any project in this repo. See `plugins/README.md`.
+- `ponytail-review`/`ponytail-audit` (diff/repo-wide over-engineering scans) — overlap the existing `code-review` (reuse/simplification cleanups, `--fix`) and `simplify` skills. `ponytail-gain`/`ponytail-help` — low-value scoreboard/reference card.
 
 ---
 
@@ -76,8 +162,37 @@ Vendored skills are static copies of a single skill folder from each upstream re
 | azure-resource-manager-playwright-dotnet | `microsoft/skills` | `684313b` | `.github/plugins/azure-sdk-dotnet/skills/azure-resource-manager-playwright-dotnet/` |
 | everything-claude-code | `affaan-m/ECC` | `64cd1ba` | `.claude/skills/everything-claude-code/` |
 | grill-me | `mattpocock/skills` | `e3b90b5` | `skills/productivity/grill-me/` |
-| grill-with-docs | `mattpocock/skills` | `e3b90b5` | `skills/engineering/grill-with-docs/` |
+| grilling | `mattpocock/skills` | `391a270` | `skills/productivity/grilling/` |
+| domain-modeling | `mattpocock/skills` | `391a270` | `skills/engineering/domain-modeling/` |
+| grill-with-docs | `mattpocock/skills` | `391a270` | `skills/engineering/grill-with-docs/` |
 | handoff | `mattpocock/skills` | `e3b90b5` | `skills/productivity/handoff/` |
+| ask-matt | `mattpocock/skills` | `391a270` | `skills/engineering/ask-matt/` |
+| codebase-design | `mattpocock/skills` | `391a270` | `skills/engineering/codebase-design/` |
+| diagnosing-bugs | `mattpocock/skills` | `391a270` | `skills/engineering/diagnosing-bugs/` |
+| implement | `mattpocock/skills` | `391a270` | `skills/engineering/implement/` |
+| improve-codebase-architecture | `mattpocock/skills` | `391a270` | `skills/engineering/improve-codebase-architecture/` |
+| prototype | `mattpocock/skills` | `391a270` | `skills/engineering/prototype/` |
+| resolving-merge-conflicts | `mattpocock/skills` | `391a270` | `skills/engineering/resolving-merge-conflicts/` |
+| setup-matt-pocock-skills | `mattpocock/skills` | `391a270` | `skills/engineering/setup-matt-pocock-skills/` |
+| tdd | `mattpocock/skills` | `391a270` | `skills/engineering/tdd/` |
+| to-spec | `mattpocock/skills` | `391a270` | `skills/engineering/to-spec/` |
+| to-tickets | `mattpocock/skills` | `391a270` | `skills/engineering/to-tickets/` |
+| triage | `mattpocock/skills` | `391a270` | `skills/engineering/triage/` |
+| wayfinder | `mattpocock/skills` | `391a270` | `skills/engineering/wayfinder/` |
+| teach | `mattpocock/skills` | `391a270` | `skills/productivity/teach/` |
+| writing-great-skills | `mattpocock/skills` | `391a270` | `skills/productivity/writing-great-skills/` |
+| code-review *(pristine mirror — see `forks[]`)* | `mattpocock/skills` | `391a270` | `skills/engineering/code-review/` → `vendor-cache/code-review/` |
+| microsoft-docs | `microsoft/skills` | `c33193b` | `.github/skills/microsoft-docs/` |
+| semantic-model-authoring | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/semantic-model-authoring/` |
+| powerbi-report-authoring | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-authoring/` |
+| powerbi-report-design | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-design/` |
+| powerbi-report-management | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-management/` |
+| powerbi-report-planning | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-planning/` |
+| powerbi-authoring-common *(→ `common/`)* | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/common/` |
+| ponytail | `DietrichGebert/ponytail` | `14a0d79` | `.openclaw/skills/ponytail/` |
+| ponytail-debt | `DietrichGebert/ponytail` | `14a0d79` | `.openclaw/skills/ponytail-debt/` |
+
+Manifest-only entries (`fabric-authoring`, `fabric-operations`, `fabric-skills`) live under a separate `plugin_manifests_only[]` array in `vendor-skills.json` — see `plugins/README.md`.
 
 ### Related (not a skill)
 
@@ -109,9 +224,20 @@ To add a new vendored skill, copy its folder into `skills/` and add a matching e
 
 ## Roadmap
 
-`plugins/` and `hooks/` are scaffolded but intentionally empty. Planned follow-on work:
+`hooks/` is scaffolded but intentionally empty; `plugins/` now holds manifest-only Fabric bundles. Status:
 
-- **Saturate**: scan [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) and diff this repo's vendored [mattpocock/skills](https://github.com/mattpocock/skills) entries (`skills/productivity/`, `skills/engineering/`) against upstream to find gaps — e.g. `grilling` and `domain-modeling`, which `grill-with-docs` references but this repo doesn't yet vendor.
-- **Vendor drift check**: `grill-with-docs`'s local content has diverged from its pinned upstream commit in a way that isn't just cosmetic (upstream is now a 4-line pointer to `/grilling` + `/domain-modeling`; local is a full standalone implementation). `update-vendor-skills.ipynb` has no mechanism to detect this kind of drift today — only staleness of the pinned commit. Needs a fork/drift-tracking design before the next vendoring pass.
-- **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by whatever lands in `plugins/`/`hooks/` above.
+- ~~**Vendor drift fix**: `grill-with-docs` had diverged from upstream.~~ **Done** — both dependencies (`grilling`, `domain-modeling`) vendored, `grill-with-docs` realigned to upstream's thin pointer.
+- ~~**Saturate `mattpocock/skills`**: evaluate the full `productivity`/`engineering` catalog.~~ **Done** — adopted the full idea→ship engineering flow (see Skills table above) using its local-markdown tracker mode. Skipped `research` (redundant with `deep-research`). Forked `code-review` → `two-axis-code-review` (naming collision with the existing general-purpose `code-review` skill) using the `vendor-cache/` pristine-mirror pattern documented above.
+- ~~**mattpocock/skills hooks check**~~ **Done** — no `hooks/` directory exists upstream; nothing left behind.
+- ~~**microsoft-docs skill**~~ **Done** — vendored for Microsoft research/planning scoping.
+- ~~**continual-learning hook review**~~ **Done, not vendored as-is** — see `hooks/README.md`: a real SQLite-backed learning-capture pattern, but built for GitHub Copilot CLI's hook format, not Claude Code's. Flagged as Goal 3 input (port, don't copy).
+- ~~**skills-for-fabric plugins**~~ **Done** — `powerbi-authoring` fully vendored (5 skills + `common/`, real Power BI/Fabric usage in this user's projects); `fabric-authoring`/`fabric-operations`/`fabric-skills` kept manifest-only (~30 unused-workload skills, heavily overlapping each other) — see `plugins/README.md`.
+- ~~**ponytail evaluation**~~ **Done, and corrected a prior claim** — earlier research called ponytail "a direct competitor to caveman"; reading the actual upstream skill disproved that. Ponytail governs code generation (YAGNI ladder), caveman governs prose — they're designed to pair, not compete (ponytail's own SKILL.md says so). Vendored `ponytail` + `ponytail-debt`; skipped `ponytail-review`/`ponytail-audit` (redundant with `code-review`/`simplify`) and `ponytail-gain`/`ponytail-help` (low value). The `plugin.json`/`marketplace.json` reference-pattern goal is superseded by `skills-for-fabric`'s more mature real-world example, already captured above.
+
+**Goal 2 (saturate skills-plugins-hooks) is complete.** Remaining work moves to Goal 3:
+
+- **`update-vendor-skills.ipynb` rework**: still has no drift-detection (only staleness-of-pinned-commit) and no incoming/outgoing manifest concept. Fork-handling now has a real first case (`two-axis-code-review`) to design against — currently a manual process (see `forks[]` in `vendor-skills.json`). Also needs to learn about `plugin_manifests_only[]` (manifest-tracked-but-not-vendored entries).
+- **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by the engineering flow now vendored above and the `continual-learning` hook pattern.
+- **Regression-testing standard** (raised 2026-07-11, no Pocock skill covers this directly): `Python-PowerBI-DynastyFantasyFootball` has no regression-testing discipline today. Building blocks exist — `tdd` (test discipline), `diagnosing-bugs` (regression-test-on-every-fix), `powerbi-report-authoring/references/screenshot-review.md` (seed for dashboard visual-regression) — but need synthesis into a Python-flavored standard (pytest + `pre-commit` + `check_sources.py`, which that repo's own `PLAN.md` already lists as a deferred pre-commit item) as part of `project-memory-template`, then retrofitted into the Dynasty repo. Especially load-bearing once dashboarding work starts there.
+- **Git guardrail — never push directly to `main`** (raised 2026-07-11): `mattpocock/skills/misc/git-guardrails-claude-code` is a real, ready-to-adapt Claude Code `PreToolUse` hook — see `hooks/README.md` for the full writeup, the blanket-block-vs-main-only adaptation it needs, and the layered-defense point (a Claude Code hook alone doesn't stop a direct terminal push or a different machine — likely also wants a native `.git/hooks/pre-push` check and/or GitHub branch protection). Scope (project-local vs. global `~/.claude/settings.json`, hook vs. a `setup-pre-commit`-style installer skill) is an open decision, deliberately not resolved yet.
 - **Enforcement**: hooks/subagents that scan repo structure on check-in for compliance with the agreed template, and flag any skill/plugin/hook checked in from a non-central source.

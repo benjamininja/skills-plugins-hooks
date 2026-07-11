@@ -41,10 +41,28 @@
       "name": "grill-with-docs",
       "repo": "mattpocock/skills",
       "branch": "main",
-      "pinned_ref": "e3b90b5",
-      "pinned_commit": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
       "source_path": "skills/engineering/grill-with-docs",
       "local_path": "skills/grill-with-docs"
+    },
+    {
+      "name": "grilling",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/productivity/grilling",
+      "local_path": "skills/grilling"
+    },
+    {
+      "name": "domain-modeling",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/domain-modeling",
+      "local_path": "skills/domain-modeling"
     },
     {
       "name": "handoff",
@@ -54,6 +72,275 @@
       "pinned_commit": "e3b90b5238f38cdea5996e16861dcae28ef52eda",
       "source_path": "skills/productivity/handoff",
       "local_path": "skills/handoff"
+    },
+    {
+      "name": "ask-matt",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/ask-matt",
+      "local_path": "skills/ask-matt"
+    },
+    {
+      "name": "codebase-design",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/codebase-design",
+      "local_path": "skills/codebase-design"
+    },
+    {
+      "name": "diagnosing-bugs",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/diagnosing-bugs",
+      "local_path": "skills/diagnosing-bugs"
+    },
+    {
+      "name": "implement",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/implement",
+      "local_path": "skills/implement"
+    },
+    {
+      "name": "improve-codebase-architecture",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/improve-codebase-architecture",
+      "local_path": "skills/improve-codebase-architecture"
+    },
+    {
+      "name": "prototype",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/prototype",
+      "local_path": "skills/prototype"
+    },
+    {
+      "name": "resolving-merge-conflicts",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/resolving-merge-conflicts",
+      "local_path": "skills/resolving-merge-conflicts"
+    },
+    {
+      "name": "setup-matt-pocock-skills",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/setup-matt-pocock-skills",
+      "local_path": "skills/setup-matt-pocock-skills"
+    },
+    {
+      "name": "tdd",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/tdd",
+      "local_path": "skills/tdd"
+    },
+    {
+      "name": "to-spec",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/to-spec",
+      "local_path": "skills/to-spec"
+    },
+    {
+      "name": "to-tickets",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/to-tickets",
+      "local_path": "skills/to-tickets"
+    },
+    {
+      "name": "triage",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/triage",
+      "local_path": "skills/triage"
+    },
+    {
+      "name": "wayfinder",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/wayfinder",
+      "local_path": "skills/wayfinder"
+    },
+    {
+      "name": "teach",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/productivity/teach",
+      "local_path": "skills/teach"
+    },
+    {
+      "name": "writing-great-skills",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/productivity/writing-great-skills",
+      "local_path": "skills/writing-great-skills"
+    },
+    {
+      "name": "code-review",
+      "repo": "mattpocock/skills",
+      "branch": "main",
+      "pinned_ref": "391a270",
+      "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "source_path": "skills/engineering/code-review",
+      "local_path": "vendor-cache/code-review",
+      "_comment": "Pristine mirror only, deliberately outside skills/ so it's never symlinked/loaded. Never hand-edit. See forks[] for the usable version."
+    },
+    {
+      "name": "microsoft-docs",
+      "repo": "microsoft/skills",
+      "branch": "main",
+      "pinned_ref": "c33193b",
+      "pinned_commit": "c33193b1b2dd14d5946e3c6213fd095ffa5b31df",
+      "source_path": ".github/skills/microsoft-docs",
+      "local_path": "skills/microsoft-docs"
+    },
+    {
+      "name": "semantic-model-authoring",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/semantic-model-authoring",
+      "local_path": "skills/semantic-model-authoring"
+    },
+    {
+      "name": "powerbi-report-authoring",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-authoring",
+      "local_path": "skills/powerbi-report-authoring"
+    },
+    {
+      "name": "powerbi-report-design",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-design",
+      "local_path": "skills/powerbi-report-design"
+    },
+    {
+      "name": "powerbi-report-management",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-management",
+      "local_path": "skills/powerbi-report-management"
+    },
+    {
+      "name": "powerbi-report-planning",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/skills/powerbi-report-planning",
+      "local_path": "skills/powerbi-report-planning"
+    },
+    {
+      "name": "powerbi-authoring-common",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/powerbi-authoring/common",
+      "local_path": "common",
+      "_comment": "Shared reference docs (COMMON-CLI.md, COMMON-CORE.md, ITEM-DEFINITIONS-CORE.md) linked by the powerbi-authoring skills above via relative paths."
+    },
+    {
+      "name": "ponytail",
+      "repo": "DietrichGebert/ponytail",
+      "branch": "main",
+      "pinned_ref": "14a0d79",
+      "pinned_commit": "14a0d79548d4de8fc2de95c1b94bb0de63a739d3",
+      "source_path": ".openclaw/skills/ponytail",
+      "local_path": "skills/ponytail"
+    },
+    {
+      "name": "ponytail-debt",
+      "repo": "DietrichGebert/ponytail",
+      "branch": "main",
+      "pinned_ref": "14a0d79",
+      "pinned_commit": "14a0d79548d4de8fc2de95c1b94bb0de63a739d3",
+      "source_path": ".openclaw/skills/ponytail-debt",
+      "local_path": "skills/ponytail-debt"
+    }
+  ],
+  "plugin_manifests_only": [
+    {
+      "name": "fabric-authoring",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/fabric-authoring/.github/plugin/plugin.json",
+      "local_path": "plugins/fabric-collection/fabric-authoring.plugin.json",
+      "_comment": "Manifest only — the ~12 skills it references are not physically vendored (unused Fabric workloads: Spark, Warehouse, Eventhouse, Eventstream, Activator, medallion). See plugins/README.md."
+    },
+    {
+      "name": "fabric-operations",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/fabric-operations/.github/plugin/plugin.json",
+      "local_path": "plugins/fabric-collection/fabric-operations.plugin.json",
+      "_comment": "Manifest only — see plugins/README.md."
+    },
+    {
+      "name": "fabric-skills",
+      "repo": "microsoft/skills-for-fabric",
+      "branch": "main",
+      "pinned_ref": "b961296",
+      "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
+      "source_path": "plugins/fabric-skills/.github/plugin/plugin.json",
+      "local_path": "plugins/fabric-collection/fabric-skills.plugin.json",
+      "_comment": "Manifest only — the full bundle (~30 skills), largely superset of fabric-authoring/fabric-operations. See plugins/README.md."
+    }
+  ],
+  "forks": [
+    {
+      "name": "two-axis-code-review",
+      "forked_from": "code-review",
+      "forked_at_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
+      "local_path": "skills/two-axis-code-review",
+      "reason": "Renamed to avoid colliding with this repo's existing general-purpose code-review skill. Diff skills/two-axis-code-review against vendor-cache/code-review after any update to see what upstream changed vs. what we changed.",
+      "_comment": "update-vendor-skills.ipynb does not yet know how to handle forks — see README Roadmap. Manual process for now: update vendor-cache/code-review via the normal vendor flow, then hand-merge relevant changes into skills/two-axis-code-review."
     }
   ]
 }
