@@ -21,7 +21,9 @@ Some skills are authored here; others are vendored from upstream projects and cr
 ├── tools/
 │   └── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
 ├── skills/                                     # every folder here gets symlinked/loaded as one library
-│   ├── caveman/                                # token-compression communication
+│   ├── caveman/                                # token-compression communication (prose)
+│   ├── ponytail/                                # YAGNI/minimal-diff discipline for code generation (pairs with caveman)
+│   ├── ponytail-debt/                           # harvest `ponytail:` shortcut comments into a ledger
 │   ├── fantasy-football-python/                # dynasty fantasy football ETL
 │   │   └── references/data_model.md
 │   ├── frontend-design/                        # production-grade frontend UI (+ LICENSE.txt)
@@ -90,6 +92,13 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 
 ### Vendored from upstream
 
+**Code-generation discipline** (pairs with `caveman`, doesn't compete with it — caveman governs prose, ponytail governs what gets built):
+
+| Skill | Description | Source |
+|-------|-------------|--------|
+| **ponytail** | YAGNI ladder for any coding task: does this need to exist → reuse what's here → stdlib → native → existing dependency → one line → minimum code. Auto-active every response, default intensity `full`. | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| **ponytail-debt** | Harvests `ponytail:` shortcut-comment markers (deliberate simplifications with a named ceiling/upgrade path) into one tracked ledger. | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+
 **Idea → ship engineering flow** (see `ask-matt` for the full map):
 
 | Skill | Description | Source |
@@ -139,6 +148,7 @@ Or link individual skills as needed. Each `skills/<name>/SKILL.md` is self-conta
 - Pocock's `research` skill (thin background-agent-reads-primary-sources tool) — the existing `deep-research` skill already covers this with more rigor (multi-source fan-out, adversarial claim verification).
 - `skills-for-fabric`'s `check-updates` skill — redundant with this repo's own `vendor-skills.json` / `update-vendor-skills.ipynb` mechanism.
 - `skills-for-fabric`'s `fabric-authoring`, `fabric-operations`, and `fabric-skills` bundles beyond their manifests — ~30 skills for Fabric workloads (Spark, Warehouse, KQL/Eventhouse, Eventstreams, Activator, migrations) unused by any project in this repo. See `plugins/README.md`.
+- `ponytail-review`/`ponytail-audit` (diff/repo-wide over-engineering scans) — overlap the existing `code-review` (reuse/simplification cleanups, `--fix`) and `simplify` skills. `ponytail-gain`/`ponytail-help` — low-value scoreboard/reference card.
 
 ---
 
@@ -179,6 +189,8 @@ Vendored skills are static copies of a single skill folder from each upstream re
 | powerbi-report-management | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-management/` |
 | powerbi-report-planning | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/skills/powerbi-report-planning/` |
 | powerbi-authoring-common *(→ `common/`)* | `microsoft/skills-for-fabric` | `b961296` | `plugins/powerbi-authoring/common/` |
+| ponytail | `DietrichGebert/ponytail` | `14a0d79` | `.openclaw/skills/ponytail/` |
+| ponytail-debt | `DietrichGebert/ponytail` | `14a0d79` | `.openclaw/skills/ponytail-debt/` |
 
 Manifest-only entries (`fabric-authoring`, `fabric-operations`, `fabric-skills`) live under a separate `plugin_manifests_only[]` array in `vendor-skills.json` — see `plugins/README.md`.
 
@@ -220,7 +232,10 @@ To add a new vendored skill, copy its folder into `skills/` and add a matching e
 - ~~**microsoft-docs skill**~~ **Done** — vendored for Microsoft research/planning scoping.
 - ~~**continual-learning hook review**~~ **Done, not vendored as-is** — see `hooks/README.md`: a real SQLite-backed learning-capture pattern, but built for GitHub Copilot CLI's hook format, not Claude Code's. Flagged as Goal 3 input (port, don't copy).
 - ~~**skills-for-fabric plugins**~~ **Done** — `powerbi-authoring` fully vendored (5 skills + `common/`, real Power BI/Fabric usage in this user's projects); `fabric-authoring`/`fabric-operations`/`fabric-skills` kept manifest-only (~30 unused-workload skills, heavily overlapping each other) — see `plugins/README.md`.
-- **ponytail evaluation**: [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) is a direct competitor to `caveman` (its own benchmark suite scores against caveman) and ships a real multi-platform `plugin.json`/`marketplace.json` pattern — now corroborated by `skills-for-fabric`'s own plugin.json convention. Not yet evaluated.
+- ~~**ponytail evaluation**~~ **Done, and corrected a prior claim** — earlier research called ponytail "a direct competitor to caveman"; reading the actual upstream skill disproved that. Ponytail governs code generation (YAGNI ladder), caveman governs prose — they're designed to pair, not compete (ponytail's own SKILL.md says so). Vendored `ponytail` + `ponytail-debt`; skipped `ponytail-review`/`ponytail-audit` (redundant with `code-review`/`simplify`) and `ponytail-gain`/`ponytail-help` (low value). The `plugin.json`/`marketplace.json` reference-pattern goal is superseded by `skills-for-fabric`'s more mature real-world example, already captured above.
+
+**Goal 2 (saturate skills-plugins-hooks) is complete.** Remaining work moves to Goal 3:
+
 - **`update-vendor-skills.ipynb` rework**: still has no drift-detection (only staleness-of-pinned-commit) and no incoming/outgoing manifest concept. Fork-handling now has a real first case (`two-axis-code-review`) to design against — currently a manual process (see `forks[]` in `vendor-skills.json`). Also needs to learn about `plugin_manifests_only[]` (manifest-tracked-but-not-vendored entries).
 - **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by the engineering flow now vendored above and the `continual-learning` hook pattern.
 - **Enforcement**: hooks/subagents that scan repo structure on check-in for compliance with the agreed template, and flag any skill/plugin/hook checked in from a non-central source.
