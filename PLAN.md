@@ -56,20 +56,32 @@ by the harness itself yet). Resume with:
      comparison. Decision: leave as-is, matching upstream exactly; revisit
      only if the auto-captured `tool_insight` signal proves valuable enough
      to justify building further. Documented in `hooks/continual-learning/README.md`.
-2. **Fix the four gaps found in the audit** — 2 of 4 done this session:
+2. **Fix the four gaps found in the audit** — 3 of 4 done this session:
    - ~~Stale `hooks/README.md`~~ — **done**, now says installed/active for
      both hooks, includes the inherited-limitation note above.
    - ~~`project-memory-template/tiers/full/CLAUDE.md` bullet-list bug~~ —
      **done**, regression-testing-standard pointer renested as a proper
      sub-bullet.
-   - [ ] Dynasty: `.pre-commit-config.yaml` exists but `pre-commit install`
-     was never run — `check_sources.py` validation fires on zero commits
-     today.
-   - [ ] `project-memory-template`'s `check-in-hygiene` hook has zero
-     adoption anywhere, including its own source repo (not dogfooded).
-   - [ ] Root `README.md` (tree diagram still shows `hooks/` empty; Roadmap
-     still calls git-guardrail scope "not resolved yet") — not yet
-     rechecked against the current activated state.
+   - ~~Dynasty: `pre-commit install` never run~~ — **done**
+     (`Python-PowerBI-DynastyFantasyFootball#20`): added `pre-commit` to
+     `requirements.txt`, installed the git hook, documented setup in
+     `CONTRIBUTING.md`, verified firing on a real commit (not manual).
+   - ~~`check-in-hygiene` zero adoption~~ — **done**. Wired into Dynasty
+     (`#20`, natural fit — real scaffold, pre-commit already active there)
+     and, per an explicit choice to bootstrap it, into this repo too
+     (`#19`, first Python/pre-commit tooling this repo has ever needed).
+     First real adoption anywhere surfaced two genuine packaging bugs in
+     the hook itself, both fixed (`project-memory-template#6`):
+     `language: python` failed outright (repo wasn't pip-installable, no
+     `setup.py`/`pyproject.toml`); the interim `language: script` fix
+     failed on Windows (relies on POSIX shebang execution). Landed on a
+     minimal `pyproject.toml` + `project.scripts` console-entry-point
+     instead — verified via scratch-venv install and by confirming the
+     hook actually blocks a deliberately-broken test ADR in both Dynasty
+     and this repo.
+   - ~~Root `README.md` stale~~ — **done**: tree diagram now reflects
+     both active hooks; Roadmap's git-guardrail entry updated from "open
+     decision, not resolved yet" to shipped/active.
 3. **Bigger logical-consistency question, still open**: neither repo
    currently has one bootstrap step that wires skills + both global hooks +
    `pre-commit` install together for a brand-new project — each is a
