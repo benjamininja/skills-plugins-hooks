@@ -10,12 +10,14 @@ Some skills are authored here; others are vendored from upstream projects and cr
 
 ```
 .
-├── manifest.json                               # top-level inventory: skills / plugins / hooks membership
+├── manifest.json                               # top-level inventory: skills / plugins / hooks membership + stage/domain tags
+├── CATALOG.md                                  # GENERATED one-page recap of everything here — rebuild via tools/build_catalog.py
 ├── vendor-skills.json                          # manifest: pins each vendored skill's upstream commit + forks
 ├── vendor-cache/                               # pristine, never-loaded mirrors of forked skills (diff target)
 │   └── code-review/                            # upstream mirror of engineering/code-review
 ├── tools/
-│   └── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
+│   ├── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
+│   └── build_catalog.py                        # regenerates CATALOG.md + drift-checks manifest vs skills/ and tags
 ├── skills/                                     # every folder here gets symlinked/loaded as one library
 │   ├── caveman/                                # token-compression communication (prose)
 │   ├── ponytail/                                # YAGNI/minimal-diff discipline for code generation (pairs with caveman)
@@ -110,6 +112,13 @@ the personal `~/.claude/skills/`.
 ---
 
 ## Skills
+
+> For a single-page, always-current recap of everything in this repo
+> (skills with stage/domain tags, plugins, hooks, sources), see
+> [CATALOG.md](CATALOG.md) — generated from `SKILL.md` frontmatter,
+> `vendor-skills.json`, and `manifest.json` by `tools/build_catalog.py`,
+> which also fails on membership/tag drift. The tables below remain the
+> narrative view.
 
 ### Authored / maintained here
 

@@ -40,12 +40,35 @@ large data fixtures, scrapers). Its output will produce the first real
 `.claude/agents/` definitions anywhere in this ecosystem — which then
 informs whether this repo grows an `agents/` catalog directory.
 
+**Add-on tasks (2026-07-12, in flight on `skill-catalog-and-tags`, stacked
+on `subagent-audit-skill`/PR #22):**
+
+1. *Plan gate* — sessions were launching request→write instead of
+   request→plan→confirm→write. Root cause: the norm existed only as
+   descriptive history in root `preferences.md` (lines 122/127) while the
+   harness system prompt pushes "act when you can act." Fix shipped: an
+   imperative **Plan gate** section in root `CLAUDE.md` (threshold: new
+   file / >1 file / any design decision; enforcement: `EnterPlanMode` by
+   default; escape hatches: explicit "just do it" or typo-class only).
+   Reminder-hook layer deliberately deferred until Layers 1–2 are
+   measured.
+2. *Unified catalog* — `manifest.json` skills became tagged objects
+   (stage/domain, routing-map taxonomy); new `tools/build_catalog.py`
+   composes frontmatter descriptions × `vendor-skills.json` provenance ×
+   tags into generated `CATALOG.md` (types recap + one-row-per-item), and
+   drift-checks membership and tags. Descriptions/authors deliberately
+   NOT duplicated into the manifest — derived, not mirrored.
+
 ## [ ] Deferred
 
 - [ ] `update-vendor-skills.ipynb` rework — drift detection, fork-handling
   automation, `plugin_manifests_only[]` awareness.
 - [ ] Skill-stage/domain routing map maintenance — keep in sync if the
   skill catalog churns (flagged as a Divergent-Change risk in review).
+  **Partially closed 2026-07-12**: stage/domain now lives as tags in
+  `manifest.json` and `tools/build_catalog.py` fails on membership/tag
+  drift when regenerating `CATALOG.md`; remaining gap is only the README
+  routing *tables* themselves (narrative view, still hand-maintained).
 - [ ] Orphan project-skill detection — hook/subagent scanning consuming
   repos' own `.claude/skills/` for skills not in this central catalog.
 - [ ] Apply `project-memory-template` to a fresh environment as a test
