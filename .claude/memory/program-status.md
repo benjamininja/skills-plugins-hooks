@@ -7,11 +7,14 @@ Three-goal program, planned 2026-07-11:
 2. Saturate the repo (ponytail scan + Matt Pocock skill-gap integration) —
    **done and merged to main** (PR #4, merge commit `3c609ca`).
 3. Synthesize `project-memory-template` from `Python-PowerBI-
-   DynastyFantasyFootball`'s memory architecture — **scaffold done and
-   merged** (public repo `benjamininja/project-memory-template`: tiered
+   DynastyFantasyFootball`'s memory architecture — **done and merged**
+   (public repo `benjamininja/project-memory-template`: tiered
    minimal/standard/full, `docs/graduating-tiers.md`, stress-tested against
    ponytail's YAGNI ladder + Pocock's grill-with-docs/domain-modeling
-   live-generation pattern).
+   live-generation pattern; regression-testing standard doc; two hooks
+   — check-in-hygiene, and the general standard's own tooling —
+   all merged to `main`). `continual-learning` hook **activation** is now
+   also done (2026-07-12) — see below.
 
 **Why:** a reusable, complexity-scaled memory-architecture template plus
 tooling, informed by aligning with Matt Pocock's skill ecosystem and an
@@ -88,14 +91,17 @@ All in `skills/`, `vendor-skills.json` is the source of truth:
   state and decision-density past what a scratch store should hold; this
   is that Phase 0 consolidation.
 
-## Goal 3 remaining slate, re-sequenced 2026-07-11
+## Goal 3 remaining slate, re-sequenced 2026-07-11 — now fully shipped
 
 Original order put regression-testing next; user re-sequenced after
 catching that `.claude/memory`/`docs/adr` were still empty on `main` (every
 PR was open, none merged) and that `continual-learning` had silently
 dropped off tracking. Stance: **this repo needs to be fully trustworthy on
 its own before being used as the pattern elsewhere** — "I need to be able
-to trust it elsewhere and we are not there yet."
+to trust it elsewhere and we are not there yet." All four items below are
+now built, merged, and verified across all three repos touched — zero open
+PRs anywhere. `continual-learning`'s activation gate (item 4) was resolved
+2026-07-12; nothing from this slate remains open. See `PLAN.md` NEXT.
 
 1. ~~Skill distribution beyond manual symlink~~ — done, merged.
 2. ~~Skill-stage/domain routing map~~ — done, merged.
@@ -103,11 +109,18 @@ to trust it elsewhere and we are not there yet."
    merged (all 4 PRs: #6, #8, #9 here; #2 on `project-memory-template`).
 4. ~~`continual-learning` hook port~~ — built and merged, PR #11
    (`hooks/continual-learning/`: `learn.sh`, `settings-snippet.json`,
-   README). **Not yet activated**: `sqlite3`/`jq` aren't on `PATH` in this
-   machine's Git Bash, so the hook would no-op if installed as-is.
-   Deliberately left as an open gate rather than silently installed —
-   which binaries, how (winget/choco/manual), and whether `jq` is
-   optional long-term all still need a real decision. See `PLAN.md`.
+   README). **Activated 2026-07-12**: installed `sqlite3`/`jq` via
+   `winget` (self-registers on user `PATH`, avoids manual PATH editing;
+   `jq` was cheap enough via winget to just install rather than accept
+   the no-`jq` degrade path), copied `learn.sh` to
+   `~/.claude/hooks/continual-learning/`, merged
+   `SessionStart`/`PostToolUse`/`PostToolUseFailure`/`SessionEnd` hooks
+   into `~/.claude/settings.json` alongside the existing `PreToolUse`
+   git-guardrails block (no key collision). Verified end-to-end, not just
+   installed: a real row landed in `~/.claude/learnings.db`'s `tool_log`
+   via a manual `postToolUse success` invocation, and the local per-repo
+   `.claude/learnings.db` auto-created and was confirmed already
+   gitignored in this repo.
 5. ~~Git guardrail hook~~ — built, merged (PR #13), **activated** on this
    machine. Branch-aware `git push` guard (blocks `main`/`master` targets
    only, allows feature branches) + upstream's blanket-blocked destructive
@@ -116,19 +129,19 @@ to trust it elsewhere and we are not there yet."
    unlike `continual-learning` this one isn't gated on a missing binary —
    it's live from the next session on. See `PLAN.md` for the test matrix
    it was verified against, pre- and post-install.
-6. ~~Check-in hygiene hook~~ — built, PR open
-   ([project-memory-template#3](https://github.com/benjamininja/project-memory-template/pull/3)),
-   not yet merged. `pre-commit` framework hook (deliberately not
-   Claude-Code-native — needs to catch every commit path, not just
-   agent-driven ones), living in `project-memory-template` where the
-   scaffold it inspects is actually defined. Blocks unfilled template
-   placeholders and dangling `CLAUDE.md`/`README.md` references, scoped to
-   the current commit's diff only. Verified against 7 hand-built scenarios,
-   including the two edge cases the design review surfaced (a deletion
-   caught even without touching the referencing file; no retroactive
-   blocking on untouched pre-existing debt). See `PLAN.md`.
-7. ~~Regression-testing standard~~ — built 2026-07-11, both PRs open (not
-   yet merged): `project-memory-template#4` (general standard doc) and
+6. ~~Check-in hygiene hook~~ — built and merged
+   ([project-memory-template#3](https://github.com/benjamininja/project-memory-template/pull/3)).
+   `pre-commit` framework hook (deliberately not Claude-Code-native — needs
+   to catch every commit path, not just agent-driven ones), living in
+   `project-memory-template` where the scaffold it inspects is actually
+   defined. Blocks unfilled template placeholders and dangling
+   `CLAUDE.md`/`README.md` references, scoped to the current commit's diff
+   only. Verified against 7 hand-built scenarios, including the two edge
+   cases the design review surfaced (a deletion caught even without
+   touching the referencing file; no retroactive blocking on untouched
+   pre-existing debt). See `PLAN.md`.
+7. ~~Regression-testing standard~~ — built and merged 2026-07-11:
+   `project-memory-template#4` (general standard doc) and
    `Python-PowerBI-DynastyFantasyFootball#19` (retrofit: `pyproject.toml`,
    `tests/test_etl_helpers.py`, `offline_smoke.py` → `test_offline_smoke.py`,
    `.pre-commit-config.yaml`, ADR-0008). Surfaced and fixed a real

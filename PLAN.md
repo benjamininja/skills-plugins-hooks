@@ -4,70 +4,18 @@ Scratchpad for active/upcoming work. Expected to drift — completed items
 collapse to one-liners once their durable signal lands in an ADR or
 `.claude/memory/`. Blow-by-blow does NOT live here.
 
-## Working state (2026-07-11)
+## Working state (2026-07-12)
 
-- All Goal 3 work-to-date is merged to `main` (PRs #6, #8, #9 here; #2 on
-  `project-memory-template`) — no open PRs on either repo. This repo's own
-  memory architecture (`CLAUDE.md`, this file, `.claude/memory/`,
-  `docs/adr/`) is live, not just proposed.
-- User re-sequenced the remaining slate (2026-07-11): this repo needs to be
-  fully trustworthy on its own before being used as the pattern for
-  elsewhere. Regression-testing standard (Dynasty-facing) moved to *last* —
-  it was about to be built next, but the user wants this repo's own
-  in-repo tooling (guardrail, hygiene) proven out first.
+**Goal 3 is fully shipped, including activation.** All four re-sequenced
+items landed and merged to `main` on every repo touched
+(`skills-plugins-hooks`, `project-memory-template`,
+`Python-PowerBI-DynastyFantasyFootball`) — zero open PRs anywhere. The
+`continual-learning` hook is now installed and live on this machine (see
+Shipped below). Full detail in `.claude/memory/program-status.md`.
 
-## ➡ NEXT — in order
+## ➡ NEXT
 
-1. ~~`continual-learning` hook port~~ — built and merged (PR #11), see
-   `hooks/continual-learning/`. Ported (not copied) to Claude Code's
-   `SessionStart`/`PostToolUse`/`PostToolUseFailure`/`SessionEnd` events;
-   global-scope install (works in every repo, not just this one) with the
-   original's two-tier global+local SQLite DB design preserved.
-   **Activation gate (open)**: this machine has neither `sqlite3` nor `jq`
-   on `PATH` in Git Bash, so the hook currently no-ops everywhere if
-   installed as-is. Before flipping it on, interrogate (plan +
-   crystallize, not just "go install it"): which binaries/how (winget vs.
-   choco vs. manual download+PATH edit), whether both are strictly
-   required or `jq`'s absence is an acceptable degrade long-term, and
-   whether this is a one-time machine setup step or something the hook's
-   own README should test/warn about at session start. Landing the code
-   was not landing the capability — treat "hook active and actually
-   persisting learnings" as the real done-condition, not "PR merged."
-2. ~~Git guardrail hook~~ — built, merged (PR #13), **and activated** on
-   this machine 2026-07-11: script copied to
-   `~/.claude/hooks/git-guardrails/block-dangerous-git.sh`, the
-   `PreToolUse`/`Bash` entry from `hooks/git-guardrails/settings-snippet.json`
-   merged into `~/.claude/settings.json` (no prior `hooks` key existed —
-   clean merge), and re-verified against the installed script path
-   post-copy. First hook in this program to go all the way from built to
-   live. Note: Claude Code reads hook config at session start, so this
-   session (already running) isn't covered — it protects every session
-   from the next one on.
-3. ~~Check-in hygiene hook~~ — built, PR open
-   ([project-memory-template#3](https://github.com/benjamininja/project-memory-template/pull/3)).
-   Lives in `project-memory-template` (not this repo's `hooks/`) as a
-   `pre-commit` framework hook, not a Claude-Code-native one — deliberate,
-   since it needs to catch every commit path, not just agent-driven ones
-   (ADR-0004 reasoning applied a second time). Blocks a commit that leaves
-   a copied template placeholder unfilled, or that leaves `CLAUDE.md`/
-   `README.md` pointing at a scaffold file that no longer exists; scoped to
-   what the current commit touches, so pre-existing debt never blocks an
-   unrelated commit. Git-recency staleness detection and an interactive
-   delete-offer were both designed against and explicitly deferred (see the
-   hook's own README) rather than built speculatively.
-4. ~~Regression-testing standard~~ — built, both PRs open (not yet merged):
-   [project-memory-template#4](https://github.com/benjamininja/project-memory-template/pull/4)
-   (general `docs/regression-testing-standard.md`) and
-   [Python-PowerBI-DynastyFantasyFootball#19](https://github.com/benjamininja/Python-PowerBI-DynastyFantasyFootball/pull/19)
-   (the retrofit: `pyproject.toml`, `tests/test_etl_helpers.py`,
-   `offline_smoke.py` → `test_offline_smoke.py`, `.pre-commit-config.yaml`,
-   ADR-0008). Also fixed a real pre-existing bug the pytest conversion
-   surfaced: `capmath.py` was never in `offline_smoke.py`'s monkeypatch
-   loop, so the `cap`/`roster` commands' "offline" test silently hit real
-   GitHub. All verification steps from the plan re-run and passed locally
-   (19 unit tests, 5 bot smoke tests, `pre-commit run --all-files`, and a
-   deliberately-broken-then-reverted function to prove the tests are real
-   assertions).
+Nothing actively sequenced — see the Deferred backlog below.
 
 ## [ ] Deferred
 
@@ -86,9 +34,14 @@ collapse to one-liners once their durable signal lands in an ADR or
   `plugins/`/`hooks/` scaffolding.
 - **Goal 2**: saturated the catalog (Pocock's idea→ship flow, ponytail,
   Power BI/Fabric skills) — merged PR #4.
-- **Goal 3, in progress**: `project-memory-template` scaffold; skill-
-  distribution bugs found and fixed; skill-stage/domain routing map;
-  two-axis review of both repos' shipped work + fixes; this repo's own
-  `common/` relocation (→ `skills/_powerbi-authoring-common/`) and full
-  memory architecture (`CLAUDE.md`/`PLAN.md`/`.claude/memory/`/4 ADRs) —
-  all merged to `main`.
+- **Goal 3, done**: `project-memory-template` scaffold; skill-distribution
+  bugs found and fixed; skill-stage/domain routing map; two-axis review of
+  both repos' shipped work + fixes; this repo's own `common/` relocation
+  (→ `skills/_powerbi-authoring-common/`) and full memory architecture
+  (`CLAUDE.md`/`PLAN.md`/`.claude/memory/`/4 ADRs); `continual-learning`
+  hook port and activation (`sqlite3`/`jq` installed via `winget`, hooks
+  merged into `~/.claude/settings.json`, verified persisting real rows);
+  `git-guardrails` hook (built and activated); `check-in-hygiene` hook;
+  regression-testing standard (general doc + Dynasty retrofit, ADR-0008)
+  — all merged to `main` across all three repos. Full detail in
+  `.claude/memory/program-status.md`.
