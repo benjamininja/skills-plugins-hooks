@@ -8,7 +8,14 @@
       "pinned_ref": "v2.1.158",
       "pinned_commit": "295dee881d0e1c1d0cd22fe171e4c1d07118fb04",
       "source_path": "plugins/frontend-design/skills/frontend-design",
-      "local_path": "skills/frontend-design"
+      "local_path": "skills/frontend-design",
+      "known_local_edits": [
+        {
+          "file": "LICENSE.txt",
+          "reason": "added at vendoring — upstream's LICENSE lives at the plugin root, outside the vendored skill folder; copied in so attribution travels with the skill",
+          "local_sha": "cae5de2a8c69a0458f13473c0f030c2fc07612f6"
+        }
+      ]
     },
     {
       "name": "azure-resource-manager-playwright-dotnet",
@@ -80,7 +87,14 @@
       "pinned_ref": "391a270",
       "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
       "source_path": "skills/engineering/ask-matt",
-      "local_path": "skills/ask-matt"
+      "local_path": "skills/ask-matt",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "router pointers rewritten for this catalog: code-review -> two-axis-code-review (fork rename), research -> deep-research substitution, setup-matt-pocock-skills section -> setup-project-memory orchestrator",
+          "local_sha": "a137e59b5afe716da1daed1064ce8f1d914d19f0"
+        }
+      ]
     },
     {
       "name": "codebase-design",
@@ -107,7 +121,14 @@
       "pinned_ref": "391a270",
       "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
       "source_path": "skills/engineering/implement",
-      "local_path": "skills/implement"
+      "local_path": "skills/implement",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "/code-review -> /two-axis-code-review (fork rename)",
+          "local_sha": "92a22a982dec4e8dcdcc7ebfc9afaab3e0991563"
+        }
+      ]
     },
     {
       "name": "improve-codebase-architecture",
@@ -152,7 +173,14 @@
       "pinned_ref": "391a270",
       "pinned_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
       "source_path": "skills/engineering/tdd",
-      "local_path": "skills/tdd"
+      "local_path": "skills/tdd",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "code-review -> two-axis-code-review (fork rename)",
+          "local_sha": "6df9f45bdc7cdc27dd980a12159e24852606f82c"
+        }
+      ]
     },
     {
       "name": "to-spec",
@@ -234,7 +262,19 @@
       "pinned_ref": "b961296",
       "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
       "source_path": "plugins/powerbi-authoring/skills/semantic-model-authoring",
-      "local_path": "skills/semantic-model-authoring"
+      "local_path": "skills/semantic-model-authoring",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "../../common/ -> ../_powerbi-authoring-common/ link rewrites (common/ relocation into skills/)",
+          "local_sha": "0899fedebcc11f7527887ef69ba95f338c670d88"
+        },
+        {
+          "file": "references/semantic-model-rest-api.md",
+          "reason": "../../../common/ -> ../../_powerbi-authoring-common/ link rewrites (common/ relocation into skills/)",
+          "local_sha": "990e301a8f590cebd15751538ac8976719eea0e2"
+        }
+      ]
     },
     {
       "name": "powerbi-report-authoring",
@@ -261,7 +301,14 @@
       "pinned_ref": "b961296",
       "pinned_commit": "b961296e97a89a39e81e10501c2ef846ad0c54db",
       "source_path": "plugins/powerbi-authoring/skills/powerbi-report-management",
-      "local_path": "skills/powerbi-report-management"
+      "local_path": "skills/powerbi-report-management",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "../../common/ -> ../_powerbi-authoring-common/ link rewrites (common/ relocation into skills/)",
+          "local_sha": "6a972c38d088f8928fc916c802916df45c1c881d"
+        }
+      ]
     },
     {
       "name": "powerbi-report-planning",
