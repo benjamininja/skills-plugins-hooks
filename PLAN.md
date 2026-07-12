@@ -23,14 +23,19 @@ yet scaffolded; revisit when agent content actually lands.
 
 ## ➡ NEXT
 
-**Vendor family-batch updates (queued next).** All 34 vendored paths have
-upstream updates pending; grilled decision 2026-07-12: take them as one PR
-per upstream family, smallest/lowest-risk first — ponytail (2) +
-anthropics (1) + ECC (1) → microsoft/skills (2) → skills-for-fabric (9)
-→ mattpocock last (21, most behavior-sensitive; includes the
-`code-review` mirror update, which trips the `two-axis-code-review`
-hand-merge task). The 7 annotated files exercise the new reapply+`--bless`
-ritual (see README "Maintaining vendored skills").
+**Vendor family-batch updates (in progress).** All 34 vendored paths had
+upstream updates pending; grilled decision 2026-07-12: one PR per
+upstream family, smallest/lowest-risk first. **Batch 1 done** (ponytail,
+ponytail-debt, everything-claude-code, frontend-design): only
+frontend-design had real content change (rewritten SKILL.md); the other
+three were pin-bumps with identical content. First live exercise of the
+reapply+`--bless` ritual (frontend-design LICENSE.txt) worked as
+designed; also fixed a Windows `--apply` bug found in the process
+(replace folder *contents*, not the folder inode — it's a junction
+target and OneDrive-synced). Remaining: microsoft/skills (2) →
+skills-for-fabric (9) → mattpocock last (21, most behavior-sensitive;
+includes the `code-review` mirror update, which trips the
+`two-axis-code-review` hand-merge task).
 
 **`subagent-audit` skill + first real run (2026-07-12, shipped — PR #22;
 Dynasty roster merged as its PR #21; historical detail below).** User
