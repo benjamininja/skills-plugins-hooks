@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for vendored skills. Each entry pins the upstream commit a skill was copied from. The tools/update-vendor-skills.ipynb notebook reads this file to check for and apply upstream updates.",
+  "_comment": "Single source of truth for vendored skills. Each entry pins the upstream commit a skill was copied from. tools/update_vendor_skills.py reads this file to check for updates and local drift, and to apply upstream updates.",
   "skills": [
     {
       "name": "frontend-design",
@@ -340,7 +340,7 @@
       "forked_at_commit": "391a2701dd948f94f56a39f7533f8eea9a859c87",
       "local_path": "skills/two-axis-code-review",
       "reason": "Renamed to avoid colliding with this repo's existing general-purpose code-review skill. Diff skills/two-axis-code-review against vendor-cache/code-review after any update to see what upstream changed vs. what we changed.",
-      "_comment": "update-vendor-skills.ipynb does not yet know how to handle forks — see README Roadmap. Manual process for now: update vendor-cache/code-review via the normal vendor flow, then hand-merge relevant changes into skills/two-axis-code-review."
+      "_comment": "tools/update_vendor_skills.py flags when vendor-cache/code-review advances past forked_at_commit (hand-merge due) and refuses --apply on this name. The merge itself stays manual: update the mirror via the normal vendor flow, hand-merge relevant changes into skills/two-axis-code-review, then bump forked_at_commit."
     }
   ]
 }

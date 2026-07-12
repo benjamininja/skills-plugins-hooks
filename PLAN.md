@@ -71,8 +71,16 @@ on `subagent-audit-skill`/PR #22):**
 
 ## [ ] Deferred
 
-- [ ] `update-vendor-skills.ipynb` rework — drift detection, fork-handling
-  automation, `plugin_manifests_only[]` awareness.
+- [x] ~~`update-vendor-skills.ipynb` rework~~ — done 2026-07-12 as
+  `tools/update_vendor_skills.py` (drift detection via blob-SHA tree
+  compare, forks[] hand-merge flagging, `plugin_manifests_only[]` checks;
+  notebook retired). First live run: all 34 vendored paths have upstream
+  updates; 6 skills carry deliberate-but-unrecorded local edits
+  (fork-rename pointers in ask-matt/implement/tdd, `common/` path rewrites
+  in semantic-model-authoring/powerbi-report-management, frontend-design's
+  added LICENSE.txt). **Open decisions**: (a) how to record
+  known-intentional drift so the checker can tell it from new silent
+  drift, (b) whether/when to take the 34 pending upstream updates.
 - [ ] Skill-stage/domain routing map maintenance — keep in sync if the
   skill catalog churns (flagged as a Divergent-Change risk in review).
   **Partially closed 2026-07-12**: stage/domain now lives as tags in

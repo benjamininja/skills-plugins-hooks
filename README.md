@@ -16,7 +16,7 @@ Some skills are authored here; others are vendored from upstream projects and cr
 ├── vendor-cache/                               # pristine, never-loaded mirrors of forked skills (diff target)
 │   └── code-review/                            # upstream mirror of engineering/code-review
 ├── tools/
-│   ├── update-vendor-skills.ipynb              # checks upstream for newer versions & re-pins
+│   ├── update_vendor_skills.py                 # checks upstream for updates + local drift, --apply re-vendors & re-pins
 │   └── build_catalog.py                        # regenerates CATALOG.md + drift-checks manifest vs skills/ and tags
 ├── skills/                                     # every folder here gets symlinked/loaded as one library
 │   ├── caveman/                                # token-compression communication (prose)
@@ -185,7 +185,7 @@ the personal `~/.claude/skills/`.
 
 **Deliberately not vendored:**
 - Pocock's `research` skill (thin background-agent-reads-primary-sources tool) — the existing `deep-research` skill already covers this with more rigor (multi-source fan-out, adversarial claim verification).
-- `skills-for-fabric`'s `check-updates` skill — redundant with this repo's own `vendor-skills.json` / `update-vendor-skills.ipynb` mechanism.
+- `skills-for-fabric`'s `check-updates` skill — redundant with this repo's own `vendor-skills.json` / `tools/update_vendor_skills.py` mechanism.
 - `skills-for-fabric`'s `fabric-authoring`, `fabric-operations`, and `fabric-skills` bundles beyond their manifests — ~30 skills for Fabric workloads (Spark, Warehouse, KQL/Eventhouse, Eventstreams, Activator, migrations) unused by any project in this repo. See `plugins/README.md`.
 - `ponytail-review`/`ponytail-audit` (diff/repo-wide over-engineering scans) — overlap the existing `code-review` (reuse/simplification cleanups, `--fix`) and `simplify` skills. `ponytail-gain`/`ponytail-help` — low-value scoreboard/reference card.
 
@@ -268,7 +268,7 @@ Plan→Design→Author→Manage pipeline, not the general one above:
 
 ## Sources & Credits
 
-Vendored skills are static copies of a single skill folder from each upstream repo. The authoritative pins live in [`vendor-skills.json`](vendor-skills.json); the table below mirrors it for readability. To check for and apply updates, run [`tools/update-vendor-skills.ipynb`](tools/update-vendor-skills.ipynb) (see **Maintaining vendored skills** below).
+Vendored skills are static copies of a single skill folder from each upstream repo. The authoritative pins live in [`vendor-skills.json`](vendor-skills.json); the table below mirrors it for readability. To check for and apply updates, run [`tools/update_vendor_skills.py`](tools/update_vendor_skills.py) (see **Maintaining vendored skills** below).
 
 | Skill | Upstream repo | Pinned ref | Source path within repo |
 |-------|---------------|-----------|-------------------------|
@@ -316,13 +316,16 @@ Manifest-only entries (`fabric-authoring`, `fabric-operations`, `fabric-skills`)
 
 ## Maintaining vendored skills
 
-[`tools/update-vendor-skills.ipynb`](tools/update-vendor-skills.ipynb) reads [`vendor-skills.json`](vendor-skills.json) and, for each vendored skill, queries the GitHub API for the latest commit touching its source path:
+[`tools/update_vendor_skills.py`](tools/update_vendor_skills.py) (successor to the retired `update-vendor-skills.ipynb`) reads [`vendor-skills.json`](vendor-skills.json) and reports, per section:
 
-1. **Check** — running all cells prints a status table (pinned vs latest commit, with a `compare` link for anything out of date).
-2. **Update** — `update_skill("<name>", apply=True)` re-downloads that skill's folder from the latest upstream commit, replaces the local copy, and re-pins `vendor-skills.json`. It's a dry run unless `apply=True`.
+1. **Check** (`python tools/update_vendor_skills.py`) —
+   - `skills[]`: pinned vs latest upstream commit on each source path, with `compare` links, **plus local-drift detection**: local files are hash-compared against the pinned upstream tree (git blob SHAs via one trees-API call per unique repo+commit — no downloads), catching silent forks. Drift is *reported, never auto-resolved* — decide revert vs promote to `forks[]` per [ADR-0001](docs/adr/0001-vendor-cache-fork-pattern.md). `--no-drift` skips the scan.
+   - `plugin_manifests_only[]`: staleness check on each cataloged plugin manifest.
+   - `forks[]`: flags when a fork's pristine `vendor-cache/` mirror has advanced past `forked_at_commit` (hand-merge due).
+2. **Update** (`--apply <name>`) — re-downloads that skill's folder from the latest upstream commit, replaces the local copy, and re-pins `vendor-skills.json`. Warns first (loudly) if the local copy has drift that would be overwritten; refuses fork names (update the mirror instead, then hand-merge).
 3. Review the resulting `git diff` before committing — upstream skills can change structure or licensing.
 
-> Set a `GITHUB_TOKEN` environment variable to lift the GitHub API rate limit from 60 to 5,000 requests/hour.
+> Authenticated GitHub requests (5,000/hr vs 60/hr) are picked up automatically from `GITHUB_TOKEN` or a logged-in `gh` CLI.
 
 To add a new vendored skill, copy its folder into `skills/` and add a matching entry to `vendor-skills.json`.
 
@@ -350,7 +353,7 @@ To add a new vendored skill, copy its folder into `skills/` and add a matching e
 
 **Goal 2 (saturate skills-plugins-hooks) is complete.** Remaining work moves to Goal 3:
 
-- **`update-vendor-skills.ipynb` rework**: still has no drift-detection (only staleness-of-pinned-commit) and no incoming/outgoing manifest concept. Fork-handling now has a real first case (`two-axis-code-review`) to design against — currently a manual process (see `forks[]` in `vendor-skills.json`). Also needs to learn about `plugin_manifests_only[]` (manifest-tracked-but-not-vendored entries).
+- ~~**`update-vendor-skills.ipynb` rework**~~ **Done** (2026-07-12) — replaced by `tools/update_vendor_skills.py`: local-drift detection (blob-SHA compare against the pinned upstream tree), `forks[]` awareness (hand-merge-due flagging, `--apply` refuses fork names), and `plugin_manifests_only[]` staleness checks. First real run surfaced that all 34 vendored paths have upstream updates available and 6 skills carry *deliberate but unrecorded* local edits (fork-rename pointers, `common/` path rewrites, an added LICENSE) — recording policy for known-intentional drift is an open design question.
 - **`project-memory-template`**: synthesize a reusable project memory-architecture template from `Python-PowerBI-DynastyFantasyFootball`, informed by the engineering flow now vendored above and the `continual-learning` hook pattern.
 - **Regression-testing standard** (raised 2026-07-11, no Pocock skill covers this directly): `Python-PowerBI-DynastyFantasyFootball` has no regression-testing discipline today. Building blocks exist — `tdd` (test discipline), `diagnosing-bugs` (regression-test-on-every-fix), `powerbi-report-authoring/references/screenshot-review.md` (seed for dashboard visual-regression) — but need synthesis into a Python-flavored standard (pytest + `pre-commit` + `check_sources.py`, which that repo's own `PLAN.md` already lists as a deferred pre-commit item) as part of `project-memory-template`, then retrofitted into the Dynasty repo. Especially load-bearing once dashboarding work starts there.
 - ~~**Git guardrail — never push directly to `main`**~~ **Done** (raised 2026-07-11, shipped 2026-07-12): `git-guardrails` — adapted from `mattpocock/skills/misc/git-guardrails-claude-code`, branch-aware (blocks only `main`/`master` targets, allows feature branches) — is built, merged, and active on this machine via `~/.claude/settings.json`'s global `PreToolUse` hooks. See `hooks/README.md` for the full writeup and the layered-defense caveat (a Claude Code hook alone doesn't stop a direct terminal push or a different machine).
