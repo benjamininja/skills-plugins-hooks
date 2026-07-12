@@ -32,10 +32,16 @@ three were pin-bumps with identical content. First live exercise of the
 reapply+`--bless` ritual (frontend-design LICENSE.txt) worked as
 designed; also fixed a Windows `--apply` bug found in the process
 (replace folder *contents*, not the folder inode — it's a junction
-target and OneDrive-synced). Remaining: microsoft/skills (2) →
-skills-for-fabric (9) → mattpocock last (21, most behavior-sensitive;
-includes the `code-review` mirror update, which trips the
-`two-axis-code-review` hand-merge task).
+target and OneDrive-synced). **Batch 2 done** (microsoft/skills ×2):
+pure pin-bumps. **Batch 3 done** (skills-for-fabric ×6 + 3 plugin
+manifests): also entirely content-identical pin-bumps; the sma/mgmt
+link-rewrite known edits went through the reapply+`--bless` ritual and
+re-blessed to identical hashes. Two more `--apply` Windows fixes:
+staging moved to system temp (OneDrive persistently denies Python's
+rmdir even with retries), and file-level sync (never delete/rename
+directories). Remaining: **mattpocock (21)** — the only batch with real
+content change expected; includes the `code-review` mirror update →
+`two-axis-code-review` hand-merge task.
 
 **`subagent-audit` skill + first real run (2026-07-12, shipped — PR #22;
 Dynasty roster merged as its PR #21; historical detail below).** User

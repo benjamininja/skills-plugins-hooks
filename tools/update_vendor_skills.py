@@ -51,6 +51,8 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -345,20 +347,48 @@ def apply_update(name: str) -> None:
     local = REPO_ROOT / entry["local_path"]
     print(f"{name}: {entry['pinned_commit'][:7]} -> {latest['sha'][:7]} "
           f"({latest['date']})")
-    staging = local.with_name(local.name + ".new")
-    if staging.exists():
-        shutil.rmtree(staging)
+    # Stage in the system temp dir, NOT next to the skill: skills/ sits in
+    # a OneDrive sync root where Python's os.rmdir is persistently denied
+    # (WinError 5), so a repo-local staging dir can never be cleaned up.
+    staging = Path(tempfile.mkdtemp(prefix=f"vendor-{name}-"))
     n = download_tree(entry["repo"], entry["source_path"], latest["sha"], staging)
-    # Replace the folder's CONTENTS, not the folder itself: the directory
-    # is a junction target (and OneDrive-synced) on this machine, so
-    # rmtree/rename of the directory inode fails with WinError 5 and would
-    # break ~/.claude/skills/ junctions even when it succeeds.
+    # Sync at FILE level — never delete or rename directories. On this
+    # machine the skill folders are junction targets inside a OneDrive
+    # sync root: renaming the folder would break ~/.claude/skills/
+    # junctions, and Python's os.rmdir is persistently denied (WinError 5)
+    # on OneDrive directories even after retries. Files unlink fine; empty
+    # leftover directories are pruned best-effort and harmless if they
+    # survive.
+    def unlink_retry(p: Path, attempts: int = 5) -> None:
+        for i in range(attempts):
+            try:
+                p.unlink()
+                return
+            except PermissionError:
+                if i == attempts - 1:
+                    raise
+                time.sleep(0.5 * (i + 1))
+
     local.mkdir(exist_ok=True)
-    for child in local.iterdir():
-        shutil.rmtree(child) if child.is_dir() else child.unlink()
-    for child in staging.iterdir():
-        shutil.move(str(child), local / child.name)
-    staging.rmdir()
+    upstream_files = {p.relative_to(staging) for p in staging.rglob("*") if p.is_file()}
+    for rel in upstream_files:
+        dest = local / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if dest.exists():
+            unlink_retry(dest)
+        shutil.move(str(staging / rel), dest)
+    for p in list(local.rglob("*")):
+        if p.is_file() and p.relative_to(local) not in upstream_files:
+            unlink_retry(p)
+    for d in sorted((p for p in local.rglob("*") if p.is_dir()), reverse=True):
+        try:
+            d.rmdir()  # only succeeds when empty; leftovers are harmless
+        except OSError:
+            pass
+    try:
+        shutil.rmtree(staging)
+    except OSError:
+        print(f"  note: could not remove staging dir {staging} — delete it manually.")
     entry["pinned_commit"] = latest["sha"]
     entry["pinned_ref"] = latest["sha"][:7]
     save_manifest(manifest)
