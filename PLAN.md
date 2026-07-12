@@ -8,14 +8,74 @@ collapse to one-liners once their durable signal lands in an ADR or
 
 **Goal 3 is fully shipped, including activation.** All four re-sequenced
 items landed and merged to `main` on every repo touched
-(`skills-plugins-hooks`, `project-memory-template`,
+(`skills-plugins-hooks-agents`, `project-memory-template`,
 `Python-PowerBI-DynastyFantasyFootball`) — zero open PRs anywhere. The
 `continual-learning` hook is now installed and live on this machine (see
 Shipped below). Full detail in `.claude/memory/program-status.md`.
 
+**2026-07-12 rename**: repo renamed `skills-plugins-hooks` →
+`skills-plugins-hooks-agents` on GitHub (`gh repo rename`) and locally
+(folder renamed by user, `origin` remote updated to match). In-repo
+references to the old name updated in `CLAUDE.md`, `README.md`, `PLAN.md`,
+`.claude/memory/MEMORY.md`; historical mentions of the Goal-1
+`skills`→`skills-plugins-hooks` rename left as accurate history. No
+`agents/` directory exists yet — the name anticipates future scope, not
+yet scaffolded; revisit when agent content actually lands.
+
 ## ➡ NEXT
 
-Nothing actively sequenced — see the Deferred backlog below.
+**Post-Goal-3 audit (2026-07-12) — grill + fix pass, not yet started.**
+A critical review of both repos (quality/distribution/logical-consistency)
+found that "merged" and "documented" repeatedly outran "actually running."
+Session was paused here for a Claude Code restart (needed for
+`continual-learning`'s hooks to take effect in a live session — it was
+wired into `~/.claude/settings.json` mid-session and hadn't been exercised
+by the harness itself yet). Resume with:
+
+1. ~~Grill `continual-learning`'s spec~~ — **done, 2026-07-12.**
+   - **Wiring**: confirmed hook fires as real harness `PostToolUse` events
+     (Read/Bash/PowerShell rows landed in `tool_log` this session,
+     timestamped, not a manual invocation) — the restart-session PATH
+     blocker is fully resolved.
+   - **`project-memory-template` integration**: the template's silence on
+     `continual-learning` in `CLAUDE.md` is *correct* — it's global machine
+     infra (like `git-guardrails`), not a per-repo install step, so a
+     per-repo scaffold shouldn't document it. The real gap was elsewhere:
+     none of the template's 3 tiers shipped a `.gitignore`, so the
+     hook's per-repo `.claude/learnings.db` (auto-created on first session
+     in any repo) was one commit away from landing in git. Fixed — `.gitignore`
+     added to `tiers/{full,standard,minimal}/` with `.claude/learnings.db` +
+     OS noise.
+   - **Scope**: pulled upstream's actual `microsoft/skills/hooks/
+     continual-learning/learn.sh` and diff'd it against this port. Two
+     things the schema promises but the implementation doesn't deliver
+     (failure-pattern grouping is tool-name-only so signal reads as noise;
+     `mistake`/`preference`/`pattern` learning categories have no write
+     path, only `tool_insight` does) are **both present in upstream's
+     original script, not introduced by the port** — confirmed by direct
+     comparison. Decision: leave as-is, matching upstream exactly; revisit
+     only if the auto-captured `tool_insight` signal proves valuable enough
+     to justify building further. Documented in `hooks/continual-learning/README.md`.
+2. **Fix the four gaps found in the audit** — 2 of 4 done this session:
+   - ~~Stale `hooks/README.md`~~ — **done**, now says installed/active for
+     both hooks, includes the inherited-limitation note above.
+   - ~~`project-memory-template/tiers/full/CLAUDE.md` bullet-list bug~~ —
+     **done**, regression-testing-standard pointer renested as a proper
+     sub-bullet.
+   - [ ] Dynasty: `.pre-commit-config.yaml` exists but `pre-commit install`
+     was never run — `check_sources.py` validation fires on zero commits
+     today.
+   - [ ] `project-memory-template`'s `check-in-hygiene` hook has zero
+     adoption anywhere, including its own source repo (not dogfooded).
+   - [ ] Root `README.md` (tree diagram still shows `hooks/` empty; Roadmap
+     still calls git-guardrail scope "not resolved yet") — not yet
+     rechecked against the current activated state.
+3. **Bigger logical-consistency question, still open**: neither repo
+   currently has one bootstrap step that wires skills + both global hooks +
+   `pre-commit` install together for a brand-new project — each is a
+   separate manual step today, and Dynasty (the most mature real example)
+   already proves this gets missed even when the rest is done right. Decide
+   whether that's worth solving now or staying deferred.
 
 ## [ ] Deferred
 

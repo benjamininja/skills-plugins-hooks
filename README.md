@@ -1,4 +1,4 @@
-# skills-plugins-hooks
+# skills-plugins-hooks-agents
 
 The central repository for [Claude Code](https://claude.ai/code) skills, plugins, and hooks — modular instruction sets, bundled plugin packages, and event-triggered automations. Every skill lives at a flat, loadable path (`skills/<name>/SKILL.md`) so the whole collection can be dropped straight into a Claude Code skills directory.
 
