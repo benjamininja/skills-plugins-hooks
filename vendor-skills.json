@@ -5,8 +5,8 @@
       "name": "frontend-design",
       "repo": "anthropics/claude-code",
       "branch": "main",
-      "pinned_ref": "v2.1.158",
-      "pinned_commit": "295dee881d0e1c1d0cd22fe171e4c1d07118fb04",
+      "pinned_ref": "423563c",
+      "pinned_commit": "423563cfe38c90fdf3b428cff0ee7f51cfec3ca7",
       "source_path": "plugins/frontend-design/skills/frontend-design",
       "local_path": "skills/frontend-design",
       "known_local_edits": [
@@ -30,8 +30,8 @@
       "name": "everything-claude-code",
       "repo": "affaan-m/ECC",
       "branch": "main",
-      "pinned_ref": "64cd1ba",
-      "pinned_commit": "64cd1ba248e77e377e76f70fc4e6434bfdddd511",
+      "pinned_ref": "40f1888",
+      "pinned_commit": "40f18885b19d06855c9a90c9d8e86c9a5c425689",
       "source_path": ".claude/skills/everything-claude-code",
       "local_path": "skills/everything-claude-code"
     },
@@ -333,8 +333,8 @@
       "name": "ponytail",
       "repo": "DietrichGebert/ponytail",
       "branch": "main",
-      "pinned_ref": "14a0d79",
-      "pinned_commit": "14a0d79548d4de8fc2de95c1b94bb0de63a739d3",
+      "pinned_ref": "b6c0448",
+      "pinned_commit": "b6c04480c03e8db2f035751d7c46289779ec3362",
       "source_path": ".openclaw/skills/ponytail",
       "local_path": "skills/ponytail"
     },
@@ -342,8 +342,8 @@
       "name": "ponytail-debt",
       "repo": "DietrichGebert/ponytail",
       "branch": "main",
-      "pinned_ref": "14a0d79",
-      "pinned_commit": "14a0d79548d4de8fc2de95c1b94bb0de63a739d3",
+      "pinned_ref": "ff5d093",
+      "pinned_commit": "ff5d0936bee1f1267f4f4a7c34a2e6c796254f0b",
       "source_path": ".openclaw/skills/ponytail-debt",
       "local_path": "skills/ponytail-debt"
     }

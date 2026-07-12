@@ -349,9 +349,16 @@ def apply_update(name: str) -> None:
     if staging.exists():
         shutil.rmtree(staging)
     n = download_tree(entry["repo"], entry["source_path"], latest["sha"], staging)
-    if local.exists():
-        shutil.rmtree(local)
-    staging.rename(local)
+    # Replace the folder's CONTENTS, not the folder itself: the directory
+    # is a junction target (and OneDrive-synced) on this machine, so
+    # rmtree/rename of the directory inode fails with WinError 5 and would
+    # break ~/.claude/skills/ junctions even when it succeeds.
+    local.mkdir(exist_ok=True)
+    for child in local.iterdir():
+        shutil.rmtree(child) if child.is_dir() else child.unlink()
+    for child in staging.iterdir():
+        shutil.move(str(child), local / child.name)
+    staging.rmdir()
     entry["pinned_commit"] = latest["sha"]
     entry["pinned_ref"] = latest["sha"][:7]
     save_manifest(manifest)
