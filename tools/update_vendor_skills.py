@@ -11,6 +11,18 @@ Modes:
   python tools/update_vendor_skills.py --apply NAME    # re-vendor one skill
                                                        # from latest upstream
                                                        # and re-pin the manifest
+  python tools/update_vendor_skills.py --bless NAME    # recompute local_sha
+                                                       # for NAME's
+                                                       # known_local_edits
+
+Known-intentional drift (three-state ontology, grilled 2026-07-12):
+faithful vendor / vendored-with-known-edits / fork. A skills[] entry may
+carry known_local_edits: [{file, reason, local_sha}] — deliberate local
+deviations that must survive updates. Drift then reports in two buckets:
+"known" (compact, quiet — file matches its blessed local_sha) and "NEW"
+(loud — unannotated drift, or an annotated file whose content moved past
+its blessing). An annotation whose file is NOT drifted is flagged stale.
+After every --apply + manual reapply of known edits, run --bless.
 
 The check covers, per vendor-skills.json section:
   skills[]                — pinned vs latest upstream commit on source_path,
@@ -129,6 +141,15 @@ def blob_sha(content: bytes) -> str:
     return hashlib.sha1(b"blob %d\0" % len(content) + content).hexdigest()
 
 
+def local_blob_sha(local_file: Path) -> str:
+    """Blob sha of a local file, CRLF-normalized for text so blessed hashes
+    survive checkout line-ending rewrites across machines."""
+    raw = local_file.read_bytes()
+    if b"\0" not in raw:
+        raw = raw.replace(b"\r\n", b"\n")
+    return blob_sha(raw)
+
+
 def local_matches(local_file: Path, upstream_sha: str) -> bool:
     raw = local_file.read_bytes()
     if blob_sha(raw) == upstream_sha:
@@ -138,11 +159,19 @@ def local_matches(local_file: Path, upstream_sha: str) -> bool:
     return False
 
 
-def drift_report(entry: dict) -> list[str]:
-    """Differences between the local copy and the pinned upstream tree."""
+def drift_report(entry: dict) -> tuple[list[str], list[str], list[str]]:
+    """Compare the local copy against the pinned upstream tree.
+
+    Returns (new, known, stale):
+      new   — loud, actionable drift lines (unannotated, or annotated but
+              the file's content moved past its blessed local_sha)
+      known — quiet one-liners for annotated drift at its blessed content
+      stale — annotations whose file is not drifted at all
+    """
     local_root = REPO_ROOT / entry["local_path"]
     if not local_root.exists():
-        return ["local path missing"]
+        return (["local path missing"], [], [])
+    annotations = {a["file"]: a for a in entry.get("known_local_edits", [])}
     prefix = entry["source_path"].rstrip("/") + "/"
     upstream = {
         p[len(prefix):]: sha
@@ -154,14 +183,33 @@ def drift_report(entry: dict) -> list[str]:
         for p in local_root.rglob("*")
         if p.is_file()
     }
-    problems = []
+    drifted: list[tuple[str, str]] = []  # (kind, rel)
     for rel, sha in upstream.items():
         if rel not in local:
-            problems.append(f"missing locally: {rel}")
+            drifted.append(("missing locally", rel))
         elif not local_matches(local[rel], sha):
-            problems.append(f"modified: {rel}")
-    problems.extend(f"local-only: {rel}" for rel in sorted(set(local) - set(upstream)))
-    return problems
+            drifted.append(("modified", rel))
+    drifted.extend(("local-only", rel) for rel in sorted(set(local) - set(upstream)))
+
+    new, known = [], []
+    for kind, rel in drifted:
+        note = annotations.get(rel)
+        if note is None:
+            new.append(f"{kind}: {rel}")
+        elif kind == "missing locally":
+            new.append(f"{kind}: {rel} (annotated as a known edit but the file is gone)")
+        elif local_blob_sha(local[rel]) == note.get("local_sha"):
+            known.append(f"{rel} — {note['reason']}")
+        else:
+            new.append(f"{kind}: {rel} (annotated, but content changed since "
+                       "its --bless — re-review, then re-bless if intended)")
+    stale = [
+        f"{rel} — annotated but not drifted (upstream caught up or the edit "
+        "was reverted; remove the annotation)"
+        for rel in annotations
+        if rel not in {r for _, r in drifted}
+    ]
+    return (new, known, stale)
 
 
 # ---------------------------------------------------------------- check ----
@@ -170,7 +218,7 @@ def check(with_drift: bool = True) -> None:
     manifest = load_manifest()
     print(f"{'skill':42} {'pinned':8} {'latest':8} status")
     print("-" * 78)
-    outdated, drifted = [], []
+    outdated, new_drift, known_drift, stale_notes = [], [], [], []
     for s in manifest["skills"]:
         try:
             latest = latest_commit(s["repo"], s["source_path"], s["branch"])
@@ -185,10 +233,15 @@ def check(with_drift: bool = True) -> None:
             latest = {"sha": None}
             status = f"error: HTTP {e.code}"
         if with_drift:
-            problems = drift_report(s)
-            if problems:
-                status += f"  DRIFT ({len(problems)} file(s))"
-                drifted.append((s["name"], problems))
+            new, known, stale = drift_report(s)
+            if new:
+                status += f"  NEW DRIFT ({len(new)} file(s))"
+                new_drift.append((s["name"], new))
+            if known:
+                status += f"  [{len(known)} known edit(s)]"
+                known_drift.append((s["name"], known))
+            if stale:
+                stale_notes.append((s["name"], stale))
         print(f"{s['name']:42} {s['pinned_commit'][:7]:8} "
               f"{(latest['sha'] or '')[:7]:8} {status}")
 
@@ -220,13 +273,24 @@ def check(with_drift: bool = True) -> None:
             latest = latest_commit(s["repo"], s["source_path"], s["branch"])
             print(f"  {s['name']}: https://github.com/{s['repo']}/compare/"
                   f"{s['pinned_commit'][:7]}...{latest['sha'][:7]}")
-    if drifted:
-        print("\nDrift detail (local copy vs pinned upstream — decide "
-              "revert vs promote to forks[], see ADR-0001):")
-        for name, problems in drifted:
+    if new_drift:
+        print("\nNEW drift (local copy vs pinned upstream — decide revert, "
+              "annotate in known_local_edits + --bless, or promote to "
+              "forks[], see ADR-0001):")
+        for name, problems in new_drift:
             print(f"  {name}:")
             for p in problems:
                 print(f"    - {p}")
+    if known_drift:
+        print("\nKnown edits (annotated + blessed — informational):")
+        for name, notes in known_drift:
+            for n in notes:
+                print(f"  {name}: {n}")
+    if stale_notes:
+        print("\nSTALE annotations (clean these up):")
+        for name, notes in stale_notes:
+            for n in notes:
+                print(f"  {name}: {n}")
 
 
 # ---------------------------------------------------------------- apply ----
@@ -259,18 +323,22 @@ def apply_update(name: str) -> None:
         sys.exit(f"{name!r} is a fork — update its vendor-cache mirror instead, "
                  "then hand-merge (see forks[] _comment).")
 
-    problems = drift_report(entry)
-    if problems:
-        print(f"WARNING: {name} has local drift vs its pinned upstream "
-              f"({len(problems)} file(s)) — applying will overwrite those "
-              "local changes:")
-        for p in problems:
+    new, known, _ = drift_report(entry)
+    if new:
+        print(f"WARNING: {name} has NEW (unannotated) drift — applying will "
+              "overwrite these local changes:")
+        for p in new:
             print(f"  - {p}")
+    if known:
+        print(f"NOTE: applying will overwrite {len(known)} known edit(s) "
+              "that must be reapplied afterwards:")
+        for n in known:
+            print(f"  - {n}")
 
     latest = latest_commit(entry["repo"], entry["source_path"], entry["branch"])
     if latest["sha"] is None:
         sys.exit(f"source path not found upstream for {name}")
-    if latest["sha"] == entry["pinned_commit"] and not problems:
+    if latest["sha"] == entry["pinned_commit"] and not (new or known):
         print(f"{name} already at latest ({latest['sha'][:7]}); nothing to do.")
         return
 
@@ -289,13 +357,43 @@ def apply_update(name: str) -> None:
     save_manifest(manifest)
     print(f"wrote {n} file(s), re-pinned manifest to {latest['sha'][:7]}. "
           "Review `git diff` before committing.")
+    if known:
+        print("\nReapply ritual for the known edits listed above:")
+        print(f"  1. git diff HEAD -- {entry['local_path']}   "
+              "(your edits are the removed lines)")
+        print("  2. Reapply each edit by hand — judgment call if upstream "
+              "rewrote that section.")
+        print(f"  3. python tools/update_vendor_skills.py --bless {name}")
+        print("  4. Review the full diff, then commit.")
+
+
+def bless(name: str) -> None:
+    manifest = load_manifest()
+    entry = next((s for s in manifest["skills"] if s["name"] == name), None)
+    if entry is None:
+        sys.exit(f"{name!r} is not in vendor-skills.json skills[]")
+    edits = entry.get("known_local_edits", [])
+    if not edits:
+        sys.exit(f"{name!r} has no known_local_edits to bless — add "
+                 "{{file, reason}} entries first.")
+    for note in edits:
+        f = REPO_ROOT / entry["local_path"] / note["file"]
+        if not f.is_file():
+            sys.exit(f"annotated file missing: {f}")
+        note["local_sha"] = local_blob_sha(f)
+        print(f"blessed {note['file']} -> {note['local_sha'][:12]}")
+    save_manifest(manifest)
 
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--apply", metavar="NAME", help="re-vendor one skill from latest upstream")
+    ap.add_argument("--bless", metavar="NAME", help="recompute local_sha for NAME's known_local_edits")
     ap.add_argument("--no-drift", action="store_true", help="skip the local-drift scan")
     args = ap.parse_args()
+    if args.bless:
+        bless(args.bless)
+        return
     print("authenticated (5,000/hr)" if TOKEN else "unauthenticated (60/hr) — "
           "set GITHUB_TOKEN or `gh auth login`", file=sys.stderr)
     if args.apply:

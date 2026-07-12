@@ -1,4 +1,3 @@
-# PLAN.md
 
 Scratchpad for active/upcoming work. Expected to drift — completed items
 collapse to one-liners once their durable signal lands in an ADR or
@@ -24,7 +23,17 @@ yet scaffolded; revisit when agent content actually lands.
 
 ## ➡ NEXT
 
-**`subagent-audit` skill + first real run (2026-07-12, in flight).** User
+**Vendor family-batch updates (queued next).** All 34 vendored paths have
+upstream updates pending; grilled decision 2026-07-12: take them as one PR
+per upstream family, smallest/lowest-risk first — ponytail (2) +
+anthropics (1) + ECC (1) → microsoft/skills (2) → skills-for-fabric (9)
+→ mattpocock last (21, most behavior-sensitive; includes the
+`code-review` mirror update, which trips the `two-axis-code-review`
+hand-merge task). The 7 annotated files exercise the new reapply+`--bless`
+ritual (see README "Maintaining vendored skills").
+
+**`subagent-audit` skill + first real run (2026-07-12, shipped — PR #22;
+Dynasty roster merged as its PR #21; historical detail below).** User
 supplied a "Subagent Opportunity Audit" prompt (six candidate categories,
 hard hook-vs-subagent boundary, 3–5 candidate cap, `.claude/agents/*.md`
 draft output); decided it belongs here as an authored skill — this repo is
@@ -40,8 +49,7 @@ large data fixtures, scrapers). Its output will produce the first real
 `.claude/agents/` definitions anywhere in this ecosystem — which then
 informs whether this repo grows an `agents/` catalog directory.
 
-**Add-on tasks (2026-07-12, in flight on `skill-catalog-and-tags`, stacked
-on `subagent-audit-skill`/PR #22):**
+**Add-on tasks (2026-07-12, shipped — PRs #23/#24 merged):**
 
 1. *Plan gate* — sessions were launching request→write instead of
    request→plan→confirm→write. Root cause: the norm existed only as
@@ -78,9 +86,14 @@ on `subagent-audit-skill`/PR #22):**
   updates; 6 skills carry deliberate-but-unrecorded local edits
   (fork-rename pointers in ask-matt/implement/tdd, `common/` path rewrites
   in semantic-model-authoring/powerbi-report-management, frontend-design's
-  added LICENSE.txt). **Open decisions**: (a) how to record
-  known-intentional drift so the checker can tell it from new silent
-  drift, (b) whether/when to take the 34 pending upstream updates.
+  added LICENSE.txt). **Both open decisions grilled and resolved
+  2026-07-12**: (a) three-state ontology (faithful /
+  vendored-with-known-edits / fork) via per-entry `known_local_edits`
+  annotations (file + reason + local_sha), two-bucket reporting
+  (known/NEW), `--bless`, stale-annotation policing, git-based reapply
+  ritual on `--apply` — built, seeded for all 6 skills, verified (0 NEW /
+  7 known files; planted edits surface as NEW); (b) family-batched update
+  PRs — see NEXT.
 - [ ] Skill-stage/domain routing map maintenance — keep in sync if the
   skill catalog churns (flagged as a Divergent-Change risk in review).
   **Partially closed 2026-07-12**: stage/domain now lives as tags in
