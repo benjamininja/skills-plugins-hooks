@@ -58,6 +58,16 @@ on `subagent-audit-skill`/PR #22):**
    tags into generated `CATALOG.md` (types recap + one-row-per-item), and
    drift-checks membership and tags. Descriptions/authors deliberately
    NOT duplicated into the manifest — derived, not mirrored.
+3. *Root-tier durability* (grilled and executed 2026-07-12): `~/.claude`
+   is now a git repo — private `benjamininja/dotclaude`, allowlist
+   `.gitignore` (CLAUDE.md/settings/memory/commands/hooks only; secrets,
+   learnings.db, junctions structurally excluded), `RESTORE.md` manual
+   bootstrap doc, direct-to-main by agreement (single-author config).
+   Commit cadence manual + a preferences.md nudge (root-tier edit → offer
+   commit at turn end). Plan gate mirrored as a distilled invariant into
+   `project-memory-template`'s three tier CLAUDE.md templates
+   ([PR #9](https://github.com/benjamininja/project-memory-template/pull/9))
+   — the piece that reaches cloud/other-machine surfaces.
 
 ## [ ] Deferred
 
