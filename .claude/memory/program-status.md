@@ -152,9 +152,35 @@ PRs anywhere. `continual-learning`'s activation gate (item 4) was resolved
 8. **`update-vendor-skills.ipynb` rework** — drift detection, fork-handling
    automation, `plugin_manifests_only[]` awareness.
 
+## 2026-07-12: repo rename, post-Goal-3 audit, skill routing + drift detection
+
+All shipped, merged, zero open PRs across all three repos as of this
+writing. Full detail in `PLAN.md`'s Shipped section (this file stays a
+2026-07-11 snapshot for Goals 1-3; don't re-expand it here). One-line
+summary of each:
+
+- Repo renamed `skills-plugins-hooks` → `skills-plugins-hooks-agents`
+  (GitHub + local + in-repo references).
+- Post-Goal-3 audit's 4 gaps all fixed: `continual-learning` re-verified
+  live and grilled against upstream; Dynasty's `pre-commit install`
+  activated; `check-in-hygiene` got its first real adoption anywhere
+  (which surfaced and fixed real cross-platform packaging bugs); stale
+  docs corrected.
+- **Found live**: every `~/.claude/skills/` junction on this machine was
+  broken (stale since before the Goal-1 rename), silently stranding every
+  Pocock tactical skill for weeks undetected — all 34 relinked.
+- Built `hooks/skill-catalog-health/` (routing-index + drift-detection
+  `SessionStart` hook) and `skills/setup-project-memory` (full-bootstrap
+  orchestrator skill) — see
+  [ADR-0005](../../docs/adr/0005-skill-routing-and-drift-detection.md).
+- Along the way, also fixed a `check-in-hygiene` false-positive on
+  markdown task-list checkboxes (`[ ]`/`[x]`), caught live on this
+  session's own merge commits.
+
 ## How to apply
 
-Re-read the repo root `README.md` Roadmap section for the current/live
-state — this file is a snapshot as of 2026-07-11. Root
-`memory-architecture.md` describes the Phase 0 algorithm this file's own
-creation is an instance of.
+Re-read the repo root `README.md` Roadmap section and `PLAN.md`'s Shipped
+section for the current/live state — this file's Goals 1-3 content is a
+snapshot as of 2026-07-11 (the 2026-07-12 section above is current as of
+that date). Root `memory-architecture.md` describes the Phase 0 algorithm
+this file's own creation is an instance of.
