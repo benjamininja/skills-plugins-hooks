@@ -1,1 +1,2 @@
-.claude/learnings.db
+__pycache__/
+*.pyc

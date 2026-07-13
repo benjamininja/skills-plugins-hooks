@@ -39,9 +39,16 @@ link-rewrite known edits went through the reapply+`--bless` ritual and
 re-blessed to identical hashes. Two more `--apply` Windows fixes:
 staging moved to system temp (OneDrive persistently denies Python's
 rmdir even with retries), and file-level sync (never delete/rename
-directories). Remaining: **mattpocock (21)** — the only batch with real
-content change expected; includes the `code-review` mirror update →
-`two-axis-code-review` hand-merge task.
+directories). **Batch 4 done** (mattpocock ×21): only grill-me (thin
+`/grilling` pointer refactor) and handoff (disable-model-invocation +
+wording) changed content; the three fork-rename known edits reapplied
+and re-blessed to identical hashes; `code-review` mirror content
+identical → `forked_at_commit` bumped, nothing to hand-merge.
+**All four batches complete — every vendored path and plugin manifest
+is at latest upstream, 0 NEW drift, 7 known edits blessed.** Headline
+finding: ~95% of the "34 pending updates" were path-level noise with
+byte-identical content — the real behavioral surface was 3 files
+(frontend-design SKILL.md, grill-me, handoff).
 
 **`subagent-audit` skill + first real run (2026-07-12, shipped — PR #22;
 Dynasty roster merged as its PR #21; historical detail below).** User

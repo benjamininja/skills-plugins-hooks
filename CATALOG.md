@@ -28,7 +28,7 @@ Tags follow the routing-map axes (see README "Routing: which skill, when"): stag
 | **everything-claude-code** | cross-cutting | reference | [affaan-m/ECC](https://github.com/affaan-m/ECC) | Development conventions and patterns for everything-claude-code. |
 | **fantasy-football-python** | cross-cutting | dynasty | authored here | Expert Python Data Engineer and Fantasy Sports Architect for a 28-team, dual-conference dynasty fantasy football league. |
 | **frontend-design** | execute | frontend | [anthropics/claude-code](https://github.com/anthropics/claude-code) | Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. |
-| **grill-me** | plan | engineering-flow | [mattpocock/skills](https://github.com/mattpocock/skills) | Interview the user relentlessly about a plan or design until reaching shared understanding, resolving each branch of the decision tree. |
+| **grill-me** | plan | engineering-flow | [mattpocock/skills](https://github.com/mattpocock/skills) | A relentless interview to sharpen a plan or design. |
 | **grill-with-docs** | plan | engineering-flow | [mattpocock/skills](https://github.com/mattpocock/skills) | A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go. |
 | **grilling** | plan | engineering-flow | [mattpocock/skills](https://github.com/mattpocock/skills) | Grill the user relentlessly about a plan or design. |
 | **handoff** | crystallize | engineering-flow | [mattpocock/skills](https://github.com/mattpocock/skills) | Compact the current conversation into a handoff document for another agent to pick up. |
