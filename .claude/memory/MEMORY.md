@@ -10,7 +10,20 @@
 
 - [Program status](program-status.md) — the 3-goal restructure/saturation
   program: what's shipped across all three goals, what's next, sequencing
-  rationale
+  rationale; 2026-07-12 second-session checkpoint (subagent-audit + first
+  Dynasty agents, plan gate + dotclaude, tags/CATALOG.md, three-state
+  vendor-drift ontology, full upstream currency)
+
+## Related decision records elsewhere
+
+- `vendor-skills.json` `known_local_edits` entries — the three-state
+  vendor ontology's per-skill annotations (grilled 2026-07-12, design in
+  PR #25 body and README "Maintaining vendored skills")
+- Dynasty `docs/adr/0009-first-subagent-roster.md` — first subagent
+  roster + rejected-candidates record (informs this repo's open `agents/`
+  directory question)
+- `benjamininja/dotclaude` — versioned root tier; RESTORE.md documents
+  new-machine bootstrap order
 
 ## Decisions (ADRs)
 

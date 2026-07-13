@@ -177,6 +177,46 @@ summary of each:
   markdown task-list checkboxes (`[ ]`/`[x]`), caught live on this
   session's own merge commits.
 
+## 2026-07-12 (second session): agents content, plan gate, catalog, vendor currency
+
+All shipped and merged same-day — PRs #22–#30 here, project-memory-template
+#9/#10, Dynasty #21, all squash-merged, zero open PRs anywhere. One-liners
+(full detail in PLAN.md Shipped and the PR bodies):
+
+- **`skills/subagent-audit/`** authored (first agents-scope content; adapted
+  from a user-supplied prompt, original preserved in `references/`). First
+  real run against Dynasty produced the ecosystem's first `.claude/agents/`
+  definitions (`fantrax-payload-analyst`, `cap-ledger-auditor`) + Dynasty
+  ADR-0009 recording accepted AND rejected candidates. Whether this repo
+  grows an `agents/` catalog directory stays open — one exemplar, both
+  agents project-scoped.
+- **Plan gate**: imperative request→plan→confirm→write rule in root
+  `CLAUDE.md` (grilled; overrides harness act-immediately defaults), plan
+  mode as enforcement, mirrored as a distilled invariant into
+  `project-memory-template`'s three tier templates with two-way sync
+  markers. Root tier now version-controlled: private `benjamininja/dotclaude`
+  (allowlist .gitignore, RESTORE.md, manual cadence + commit-offer nudge in
+  preferences.md).
+- **Catalog**: `manifest.json` skills[] gained stage/domain tags (routing-map
+  taxonomy); `tools/build_catalog.py` generates `CATALOG.md` from frontmatter
+  × vendor-skills.json × tags and drift-checks membership/tags.
+- **Vendor tooling**: notebook → `tools/update_vendor_skills.py` (staleness +
+  local-drift via blob-SHA tree compare + forks + plugin manifests). Grilled
+  **three-state ontology** (faithful / vendored-with-known-edits / fork):
+  `known_local_edits` (file+reason+local_sha), two-bucket known/NEW
+  reporting, `--bless`, stale policing, git-based reapply ritual on
+  `--apply` (no patch machinery).
+- **All 34 vendored paths + 3 plugin manifests brought fully current** in 4
+  family-batched PRs. Headline: ~95% of pending updates were path-level
+  noise with byte-identical content; real behavioral surface = 3 files
+  (frontend-design, grill-me, handoff SKILL.md). Three Windows/OneDrive
+  `--apply` bugs fixed under load (file-level sync; temp staging; never
+  rmdir OneDrive dirs). 7 known edits blessed; fork bumped to mirror.
+- **check-in-hygiene**: 3rd false-positive class fixed upstream (DAX
+  `Table[Column]` — lookbehind), Dynasty pin bumped; 4th class identified
+  (inline-code JSON notation) with the robust fix queued: strip inline-code
+  spans before the placeholder scan.
+
 ## How to apply
 
 Re-read the repo root `README.md` Roadmap section and `PLAN.md`'s Shipped
