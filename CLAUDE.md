@@ -58,4 +58,9 @@ even solo, even for "just documentation" (violated once, 2026-07-11 — see
 root `preferences.md`'s Git & Version Control section for the incident and
 why it matters). Commit only when asked.
 
-Before opening a PR, run `/security-review` on the diff.
+Before opening a PR, run `/security-review` on the diff. It only reviews
+the repo the current session is rooted in — for cross-repo work, run it
+from a session actually rooted in the target repo, not from here. Before
+trusting a "no findings" result, confirm the reported diff actually
+reflects the intended changes (a clean result for the wrong repo looks
+identical to a clean result for the right one).
