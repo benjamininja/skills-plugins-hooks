@@ -66,6 +66,13 @@ inline-code spans — kills false-positive classes 2–4) in
 
 ## Shipped (one-liners; full detail in ADR / `.claude/memory/`)
 
+- **2026-07-17 (cont'd, second addition)**: `/security-review` required
+  before opening a PR (ADR-0009) — added to this repo's `CLAUDE.md` and all
+  three `project-memory-template` tier `CLAUDE.md`s' `## Git` section;
+  cross-referenced in `skill-safety-auditor.md`. It's a Claude-Code-built-in
+  skill (no local `SKILL.md`), so nothing to vendor — doc instruction only,
+  since neither `pre-commit`/CI nor `check-in-hygiene` can invoke a skill
+  (ADR-0004's boundary, extended).
 - **2026-07-17 (cont'd)**: `/subagent-audit` run against `project-memory-
   template` found almost no real subagent surface there (it never dogfoods
   its own scaffold — `docs/adr/`/`PLAN.md`/`CONTEXT.md` only exist as

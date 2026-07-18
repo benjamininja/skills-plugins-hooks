@@ -52,3 +52,7 @@
   the private `dotclaude` root — chosen over homing it in either of those
   repos since this repo is the one every project already junction-installs
   from
+- `docs/adr/0009-security-review-at-pr-time.md` — `/security-review`
+  (Claude Code's built-in skill, not a repo file) required before opening
+  a PR in both this repo and `project-memory-template`'s three tiers;
+  extends ADR-0004's CI-vs-agent-in-the-loop boundary to a new case
