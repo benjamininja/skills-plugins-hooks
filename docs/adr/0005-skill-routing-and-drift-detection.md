@@ -1,6 +1,10 @@
 # Skill routing nudges, junction drift detection, and a full-repo bootstrap skill
 
-- Status: accepted
+- Status: accepted — partially superseded by
+  [ADR-0006](0006-blast-radius-tiered-model-invocation.md) for a specific
+  low-blast-radius subset (`grill-me`, `grill-with-docs`, `teach`,
+  `writing-great-skills`, `ask-matt`); router-skill safety reasoning
+  otherwise intact
 - Date: 2026-07-12
 - Scope: `hooks/skill-catalog-health/`, `skills/setup-project-memory/`,
   `skills/ask-matt/SKILL.md`, `project-memory-template`
