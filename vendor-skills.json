@@ -42,7 +42,14 @@
       "pinned_ref": "cbf6db4",
       "pinned_commit": "cbf6db4233c7e4202abaf79643f7ab395c75a2df",
       "source_path": "skills/productivity/grill-me",
-      "local_path": "skills/grill-me"
+      "local_path": "skills/grill-me",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "disable-model-invocation removed: promoted to model-invocable per ADR-0006 (low-blast-radius tier of domain/planning routing).",
+          "local_sha": "b69573bc759d6d09354b988ad3b60a0398dd090e"
+        }
+      ]
     },
     {
       "name": "grill-with-docs",
@@ -51,7 +58,14 @@
       "pinned_ref": "658d53e",
       "pinned_commit": "658d53e6ded8cc0eaa26a96e0580bee9381ca0e3",
       "source_path": "skills/engineering/grill-with-docs",
-      "local_path": "skills/grill-with-docs"
+      "local_path": "skills/grill-with-docs",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "disable-model-invocation removed: promoted to model-invocable per ADR-0006 (low-blast-radius tier of domain/planning routing).",
+          "local_sha": "fa1bf7d181a91f0ba65dc35a5a365cc6e1d3d340"
+        }
+      ]
     },
     {
       "name": "grilling",
@@ -91,8 +105,8 @@
       "known_local_edits": [
         {
           "file": "SKILL.md",
-          "reason": "router pointers rewritten for this catalog: code-review -> two-axis-code-review (fork rename), research -> deep-research substitution, setup-matt-pocock-skills section -> setup-project-memory orchestrator",
-          "local_sha": "a137e59b5afe716da1daed1064ce8f1d914d19f0"
+          "reason": "router pointers rewritten for this catalog: code-review -> two-axis-code-review (fork rename), research -> deep-research substitution, setup-matt-pocock-skills section -> setup-project-memory orchestrator; disable-model-invocation removed per ADR-0006 (low-blast-radius tier)",
+          "local_sha": "ad4a35b4cdf6e5205a4ac271a6e67118837ef7fb"
         }
       ]
     },
@@ -225,7 +239,14 @@
       "pinned_ref": "aa024cb",
       "pinned_commit": "aa024cb1954fedbc8221967c080fa40b9867f994",
       "source_path": "skills/productivity/teach",
-      "local_path": "skills/teach"
+      "local_path": "skills/teach",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "disable-model-invocation removed: promoted to model-invocable per ADR-0006 (low-blast-radius tier of domain/planning routing).",
+          "local_sha": "474567e776967f76b6fc6d36176f67a01a8e3df8"
+        }
+      ]
     },
     {
       "name": "writing-great-skills",
@@ -234,7 +255,14 @@
       "pinned_ref": "af6d692",
       "pinned_commit": "af6d6922c3e2b5288eef155346cbe319e4ed3bd0",
       "source_path": "skills/productivity/writing-great-skills",
-      "local_path": "skills/writing-great-skills"
+      "local_path": "skills/writing-great-skills",
+      "known_local_edits": [
+        {
+          "file": "SKILL.md",
+          "reason": "disable-model-invocation removed: promoted to model-invocable per ADR-0006 (low-blast-radius tier of domain/planning routing).",
+          "local_sha": "b414b583c0af961480fc41bdfc7824a0633ddfff"
+        }
+      ]
     },
     {
       "name": "code-review",

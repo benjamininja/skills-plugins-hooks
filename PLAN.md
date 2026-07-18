@@ -66,6 +66,31 @@ inline-code spans — kills false-positive classes 2–4) in
 
 ## Shipped (one-liners; full detail in ADR / `.claude/memory/`)
 
+- **2026-07-17 (cont'd)**: `/subagent-audit` run against `project-memory-
+  template` found almost no real subagent surface there (it never dogfoods
+  its own scaffold — `docs/adr/`/`PLAN.md`/`CONTEXT.md` only exist as
+  unfilled `tiers/*/` template content, not live project state), except one
+  real gap: the tiers' distilled plan-gate paraphrase vs. root `dotclaude`
+  CLAUDE.md's plan gate has no sync enforcement (text-diff can't check it —
+  the tiers are deliberately reworded, not copied). Added
+  `plan-gate-sync-auditor` (ADR-0008) here rather than in either subject
+  repo, since neither has an `.claude/agents/` home yet and this repo is
+  the one every project already links from. `check-in-hygiene`'s deferred
+  staleness/delete-offer features were considered and explicitly deemed
+  out of scope for that audit — no live scaffold instance to judge
+  staleness of in `project-memory-template` itself; belongs in a consuming
+  repo if ever built.
+- **2026-07-17**: blast-radius-tiered model-invocation (ADR-0006) — flipped
+  `disable-model-invocation` off for `grill-me`, `grill-with-docs`, `teach`,
+  `writing-great-skills`, `ask-matt` via `known_local_edits` (not a full
+  fork); `triage`/`wayfinder` initially proposed but moved back to manual on
+  closer read (both write to the external issue tracker). Followed by
+  `/subagent-audit`: first `.claude/agents/` roster (ADR-0007) —
+  `vendor-sync-reapply` (background, handles the `--apply` reapply-ritual
+  judgment call) and `skill-safety-auditor` (foreground, adversarial
+  blast-radius review before future invocation-tier changes) — both a
+  direct response to gaps this same session exposed (a near-miss
+  mis-tiering of `triage`/`wayfinder`, and the unenforced reapply ritual).
 - **2026-07-12 second session** (PRs #22–#30 here + template #9/#10 +
   Dynasty #21 + dotclaude): `subagent-audit` skill + first Dynasty agent
   roster; plan gate (root CLAUDE.md + template tiers + sync markers);

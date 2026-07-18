@@ -35,3 +35,20 @@
   the practical install mechanism when symlinks need elevation
 - `docs/adr/0004-ci-over-local-pr-hook.md` — why a server-side CI gate
   beats a client-side pre-PR hook for "tests must pass before merge"
+- `docs/adr/0005-skill-routing-and-drift-detection.md` — router-skill
+  nudge-not-auto-invoke design, junction drift detection; status now notes
+  partial supersession by ADR-0006
+- `docs/adr/0006-blast-radius-tiered-model-invocation.md` — flips
+  `disable-model-invocation` off for 5 skills (`grill-me`,
+  `grill-with-docs`, `teach`, `writing-great-skills`, `ask-matt`) whose
+  worst-case wrong-trigger is conversation/local-file-write only; `triage`
+  and `wayfinder` stay manual (external issue-tracker writes)
+- `docs/adr/0007-first-subagents-vendor-sync-and-safety-audit.md` — first
+  `.claude/agents/` roster in this repo: `vendor-sync-reapply` (background)
+  and `skill-safety-auditor` (foreground), both born from gaps found while
+  executing ADR-0006 in the same session
+- `docs/adr/0008-plan-gate-sync-auditor.md` — third agent, homed here
+  despite auditing `project-memory-template`'s tier CLAUDE.md files against
+  the private `dotclaude` root — chosen over homing it in either of those
+  repos since this repo is the one every project already junction-installs
+  from

@@ -116,7 +116,9 @@ def main() -> int:
             if name in dir_names:
                 errors.append(f"skills/{name}/ has no SKILL.md")
             continue
-        desc = first_sentence(frontmatter(skill_md).get("description", ""))
+        fm = frontmatter(skill_md)
+        desc = first_sentence(fm.get("description", ""))
+        invocation = "user" if fm.get("disable-model-invocation") == "true" else "model"
 
         if name in forks:
             upstream = vendor_by_name[forks[name]["forked_from"]]
@@ -130,7 +132,7 @@ def main() -> int:
 
         stage = next((t for t in tags if t in taxonomy["stage"]), "?")
         domain = next((t for t in tags if t in taxonomy["domain"]), "?")
-        rows.append((name, stage, domain, source, md_escape(desc)))
+        rows.append((name, stage, domain, invocation, source, md_escape(desc)))
 
     plugin_rows = [
         (p["name"], f"[{p['repo']}](https://github.com/{p['repo']})", p.get("_comment", ""))
@@ -139,6 +141,9 @@ def main() -> int:
     hook_rows = [
         (h, md_escape(hook_summary(ROOT / "hooks" / h))) for h in manifest["hooks"]
     ]
+
+    agents_dir = ROOT / ".claude" / "agents"
+    agent_names = sorted(p.stem for p in agents_dir.glob("*.md")) if agents_dir.exists() else []
 
     lines = [
         "# Catalog",
@@ -159,17 +164,23 @@ def main() -> int:
         "scripts under `hooks/`, registered in `~/.claude/settings.json`. See `hooks/README.md`.",
         "- **Vendor cache** (1) — pristine, never-loaded upstream mirrors of forked skills, for "
         "diffing. See ADR-0001.",
-        "- **Agents** (0 here) — none cataloged yet; the first real `.claude/agents/` definitions "
-        "live in the Dynasty repo (its ADR-0009), produced by `/subagent-audit`.",
+        (f"- **Agents** ({len(agent_names)} here: {', '.join(agent_names)}) — see "
+         "each agent's own frontmatter `description`, and `docs/adr/` for "
+         "the decision record behind it."
+         if agent_names else
+         "- **Agents** (0 here) — none cataloged yet; the first real `.claude/agents/` definitions "
+         "live in the Dynasty repo (its ADR-0009), produced by `/subagent-audit`."),
         "",
         "## Skills",
         "",
         "Tags follow the routing-map axes (see README \"Routing: which skill, when\"): "
-        f"stage = {' / '.join(taxonomy['stage'])}; domain = {' / '.join(taxonomy['domain'])}.",
+        f"stage = {' / '.join(taxonomy['stage'])}; domain = {' / '.join(taxonomy['domain'])}. "
+        "Invocation: `model` = reachable without a slash command (default); "
+        "`user` = `disable-model-invocation: true`, slash-command only.",
         "",
-        "| Skill | Stage | Domain | Source | Summary |",
-        "|---|---|---|---|---|",
-        *(f"| **{n}** | {s} | {d} | {src} | {desc} |" for n, s, d, src, desc in rows),
+        "| Skill | Stage | Domain | Invocation | Source | Summary |",
+        "|---|---|---|---|---|---|",
+        *(f"| **{n}** | {s} | {d} | {inv} | {src} | {desc} |" for n, s, d, inv, src, desc in rows),
         "",
         "## Plugins (manifest-only)",
         "",
