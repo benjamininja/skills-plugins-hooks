@@ -44,6 +44,33 @@ safety-relevant skill change" moment, so it's the one place in this repo
 where a reader might mistake its blast-radius review for a substitute for
 `/security-review`, or vice versa. Noted as complementary, not overlapping.
 
+## Amendment (2026-07-17, same day)
+
+Discovered immediately on first real use: `/security-review` is bound to
+the session's fixed primary working directory, not to shell `cwd` — `cd`
+inside a `Bash` call has no effect on it. Tested by running it from a
+session rooted in `project-memory-template` while trying to review a
+`skills-plugins-hooks-agents` PR: it silently reported a clean diff for
+`project-memory-template` (nothing changed there — already merged), which
+read exactly like a real "no findings" result for the intended PR. Caught
+only because the printed git-status text obviously named the wrong repo;
+a smaller, easy-to-miss diff could have produced a false-clean review that
+looked identical to a real one.
+
+This is worse than the review simply not running — a visible failure
+would have prompted a retry, but a wrong-repo clean result reads as
+success. Decided not to build a workaround (a wrapper skill/subagent
+replicating the rubric against an arbitrary repo) — that's permanent
+machinery for what should be a documented gotcha, since most work happens
+in a session already rooted in the right repo. Instead, added to both
+repos' `## Git` section, directly after the `/security-review` line:
+
+1. The constraint itself — it only reviews the repo the current session is
+   rooted in; cross-repo work requires a session actually rooted in the
+   target repo.
+2. A sanity check — before trusting a "no findings" result, confirm the
+   reported diff actually reflects the intended changes.
+
 ## Alternatives rejected
 
 - **Wire it into `check-in-hygiene` (project-memory-template) or a new
