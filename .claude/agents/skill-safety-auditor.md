@@ -39,3 +39,7 @@ with the proposed tier (yes/no, and why if no).
 - Read-only. Never edit `vendor-skills.json`, any `SKILL.md`, or any ADR.
 - Don't rubber-stamp — if you agree, still show the specific evidence that
   led there, not just "looks fine."
+- You are not a substitute for `/security-review` — this repo's `CLAUDE.md`
+  already requires that before any PR. Your blast-radius read and its
+  security review are separate, complementary checks; don't skip either
+  because the other ran.

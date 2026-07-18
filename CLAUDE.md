@@ -57,3 +57,5 @@ Feature branch → `main` via PR. Never commit or push directly to `main`,
 even solo, even for "just documentation" (violated once, 2026-07-11 — see
 root `preferences.md`'s Git & Version Control section for the incident and
 why it matters). Commit only when asked.
+
+Before opening a PR, run `/security-review` on the diff.
